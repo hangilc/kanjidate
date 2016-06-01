@@ -17,7 +17,7 @@ Additionally, Jan 7, 1989 is "昭和" (shouwa) 64 nen.
 
 ## API
 
-##### toGengou(year, month, day)
+* __toGengou(year, month, day)__
 
 returns ```{gengou: ..., nen: ...}``` that is calculated from _year_, _month_ and _day_.
 If the date does not corresponds to the four eras ("明治", "大正", "昭和", "平成"), it returns an object
@@ -32,7 +32,7 @@ var kanjidate = require("kanjidate");
 kanjidate.toGengou(1957, 6, 2)  // ==> {gengou: "昭和", nen: 32}
 ```
 
-##### fromGengou(gengou, nen)
+* __fromGengou(gengou, nen)__
 
 returns year corresponding to _gengou_ and _nen_.
 Before calculating year, _nen_ is converted to a number, which is then truncated to integral values.
