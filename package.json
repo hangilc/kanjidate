@@ -2,7 +2,7 @@
   "name": "kanjidate",
   "version": "1.0.0",
   "description": "a small library that handles conversion between date and Japanese gengou",
-  "main": "index.js",
+  "main": "kanjidate.js",
   "scripts": {
     "test": "mocha --reporter spec"
   },

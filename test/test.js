@@ -1,5 +1,5 @@
 var expect = require("chai").expect;
-var kanjidate = require("../index.js");
+var kanjidate = require("../kanjidate.js");
 
 describe("convert to gengou", function(){
 	it("calculates gengou from year, month and day", function(){
