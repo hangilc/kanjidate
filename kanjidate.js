@@ -14,7 +14,7 @@ function lt(year1, month1, day1, year2, month2, day2){
 	return day1 < day2;
 }
 
-function toGengou(year, month, day){
+function toDateData(year, month, day){
 	year = Math.floor(+year);
 	month = Math.floor(+month); 
 	day = Math.floor(+day);
@@ -27,6 +27,39 @@ function toGengou(year, month, day){
 	if( !(day >= 1 && day <= 31) ){
 		throw new Error("invalid day");
 	}
+	return {
+		year: year,
+		month: month,
+		day: day
+	}
+}
+
+function toDateData1(date){
+	var m, t, d;
+	if( typeof date === "string" ){
+		t = Date.parse(date);
+		if( !isNaN(t) ){
+			d = new Date(t);
+			return toDateData(d.getFullYear(), d.getMonth()+1, d.getDate());
+		}
+	} else if( typeof date === "object" ){
+		if( typeof date.getFullYear === "function" ){
+			return toDateData(date.getFullYear(), date.getMonth()+1, date.getDate());
+		}
+	}
+	throw new Error("invalid date: " + date);
+}
+
+function toGengou(year, month, day){
+	var data;
+	if( arguments.length === 1 ){
+		data = toDateData1(arguments[0]);
+	} else {
+		data = toDateData(year, month, day);
+	}
+	year = data.year;
+	month = data.month; 
+	day = data.day;
 	if( lt(year, month, day, 1868, 10, 23) ){
 		return { gengou:"西暦", nen:year };
 	}

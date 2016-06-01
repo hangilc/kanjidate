@@ -32,6 +32,17 @@ var kanjidate = require("kanjidate");
 kanjidate.toGengou(1957, 6, 2)  // ==> {gengou: "昭和", nen: 32}
 ```
 
+* __toGengou(date)__
+
+returns ```{gengou: ..., nen: ...}``` that is calculated from _date_. _date_ can be 
+1) a string such as "2016-06-02" (which shoule be acceptable by ```Date.parse```) 
+
+```js
+var kanjidate = require("kanjidate");
+kanjidate.toGengou("2016-06-02")          // ==> {gengou: "昭和", nen: 32}
+kanjidate.toGengou(new Date(2016, 5, 2))  // ==> {gengou: "昭和", nen: 32}
+```
+
 * __fromGengou(gengou, nen)__
 
 returns year corresponding to _gengou_ and _nen_.

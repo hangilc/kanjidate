@@ -32,6 +32,12 @@ describe("convert to gengou", function(){
 			return kanjidate.toGengou(2014, 3, 32);
 		}).to.throw(Error);
 	});
+	it("calculate gengou from date", function(){
+		expect(kanjidate.toGengou("1989-01-08")).to.eql({gengou: "平成", nen: 1});
+	});
+	it("calculate gengou from date", function(){
+		expect(kanjidate.toGengou(new Date(1957, 5, 2))).to.eql({gengou: "昭和", nen: 32});
+	});
 });
 
 describe("convert from gengou", function(){
