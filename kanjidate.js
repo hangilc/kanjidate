@@ -99,3 +99,11 @@ function fromGengou(gengou, nen){
 }
 
 exports.fromGengou = fromGengou;
+
+function toKanji(year, month, day, opt){
+	opt = opt || {};
+	var g = toGengou(year, month, day);
+	return g.gengou + g.nen + "年" + month + "月" + day + "日";
+}
+
+exports.toKanji = toKanji;

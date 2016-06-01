@@ -57,5 +57,14 @@ var kanjidate = require("kanjidate");
 kanidate.fromGengou("昭和", 32)  // ==> 1957
 ```
 
+* __toKanji(year, month, day)__
+
+returns a string that represents the date in gengou-nen format.
+
+```js
+var kanjidate = require("kanjidate");
+kanjidate.toKanji(1989, 1, 8)  // ==> "平成1年1月8日"
+```
+
 ## License
 This software is released under the MIT License, see [LICENSE.txt](LICENSE.txt).

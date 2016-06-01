@@ -63,3 +63,9 @@ describe("convert from gengou", function(){
 		expect(function(){ return kanjidate.fromGengou("平成", -3); }).to.throw(Error);
 	});
 });
+
+describe("convert date to kanji representation", function(){
+	it("convert year, month and day to kanji representation", function(){
+		expect(kanjidate.toKanji(1989, 1, 8)).equal("平成1年1月8日");
+	})
+})
