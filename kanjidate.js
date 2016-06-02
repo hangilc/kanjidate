@@ -14,10 +14,23 @@ function lt(year1, month1, day1, year2, month2, day2){
 	return day1 < day2;
 }
 
-function toDateData(year, month, day){
-	year = Math.floor(+year);
-	month = Math.floor(+month); 
-	day = Math.floor(+day);
+var assign = Object.assign || function(dst, src){
+	var i, obj, key;
+	for(i=1;i<arguments.length;i++){
+		obj = arguments[i];
+		for(key in obj){
+			if( obj.hasOwnProperty(key) ){
+				dst[key] = obj[key];
+			}
+		}
+	}
+	return dst;
+}
+
+function Info(year, month, day){
+	this.year = Math.floor(+year);
+	this.month = Math.floor(+month); 
+	this.day = Math.floor(+day);
 	if( year <= 0 ){
 		throw new Error("invalid year: " + year);
 	}
@@ -27,39 +40,49 @@ function toDateData(year, month, day){
 	if( !(day >= 1 && day <= 31) ){
 		throw new Error("invalid day");
 	}
-	return {
-		year: year,
-		month: month,
-		day: day
-	}
 }
 
-function toDateData1(date){
-	var m, t, d;
-	if( typeof date === "string" ){
-		t = Date.parse(date);
-		if( !isNaN(t) ){
-			d = new Date(t);
-			return toDateData(d.getFullYear(), d.getMonth()+1, d.getDate());
-		}
-	} else if( typeof date === "object" ){
-		if( typeof date.getFullYear === "function" ){
-			return toDateData(date.getFullYear(), date.getMonth()+1, date.getDate());
+Info.fromDate = function(date){
+	return new Info(date.getFullYear(), date.getMonth()+1, date.getDate());
+};
+
+Info.fromTimeStamp = function(ts){
+	return Info.fromDate(new Date(ts));
+}
+
+Info.fromString = function(str){
+	var t = Date.parse(str);
+	if( isNaN(t) ){
+		throw new Error("cannot parse to date: " + str);
+	}
+	return Info.fromTimeStamp(t);
+}
+
+Info.from = function(what){
+	if( typeof what === "number" ){
+		return Info.fromTimeStamp(what);
+	}
+	if( typeof what === "string" ){
+		return Info.fromString(what);
+	}
+	if( typeof what === "object" ){
+		if( typeof what.getFullYear === "function" ){
+			return Info.fromDate(what);
 		}
 	}
-	throw new Error("invalid date: " + date);
-}
+	throw new Error("cannot convert to date info: " + what);
+};
 
 function toGengou(year, month, day){
-	var data;
+	var info;
 	if( arguments.length === 1 ){
-		data = toDateData1(arguments[0]);
+		info = Info.from(arguments[0]);
 	} else {
-		data = toDateData(year, month, day);
+		info = new Info(year, month, day);
 	}
-	year = data.year;
-	month = data.month; 
-	day = data.day;
+	year = info.year;
+	month = info.month; 
+	day = info.day;
 	if( lt(year, month, day, 1868, 10, 23) ){
 		return { gengou:"西暦", nen:year };
 	}
@@ -100,16 +123,34 @@ function fromGengou(gengou, nen){
 
 exports.fromGengou = fromGengou;
 
+var youbi = ["日", "月", "火", "水", "木", "金", "土"];
+
+function InfoEx(info){
+	this.year = info.year;
+	this.month = info.month;
+	this.day = info.day;
+	var g = toGengou(this.year, this.month, this.day);
+	this.gengou = g.gengou;
+	this.nen = g.nen;
+	var d = new Date(this.year, this.month-1, this.day);
+	this.dayOfWeek = d.getDay();
+	this.youbi = youbi[this.dayOfWeek];
+}
+
+function identity(x){
+	return x;
+}
+
 function toKanji(year, month, day, opt){
-	var g = toGengou(year, month, day);
+	var info = new InfoEx(new Info(year, month, day));
 	if( !opt ){
-		return g.gengou + g.nen + "年" + month + "月" + day + "日";
+		return info.gengou + info.nen + "年" + month + "月" + day + "日";
 	}
 	var format = opt.format || "GN年M月D日";
 	var parts = format.split("").map(function(ch){
 		switch(ch){
-			case "G": return formatGengou(opt.G, g.gengou);
-			case "N": return formatNen(opt.N, g.nen);
+			case "G": return formatGengou(opt.G || identity, info);
+			case "N": return formatNen(opt.N || identity, info);
 			default: return ch;
 		}
 	});
@@ -128,24 +169,34 @@ function gengouToAlpha(gengou){
 	}
 }
 
-function formatGengou(style, gengou){
-	style = style || "平成";
-	if( ["平成", "昭和", "大正", "明治"].indexOf(style) >= 0 ){
-		return gengou;
+function GengouFormat(info){
+	this.info = info;
+	this.result = info.gengou;
+}
+
+assign(GengouFormat.prototype, {
+	toString: function(){
+		return this.result;
+	},
+	example: function(ex){
+		var gengou = this.result;
+		if( ["平成", "昭和", "大正", "明治"].indexOf(ex) >= 0 ){
+			this.result = gengou;
+		} else if( ["平", "昭", "大", "明"].indexOf(ex) >= 0 ){
+			this.result = gengou[0];
+		} else if( ["H", "S", "T", "M"].indexOf(ex) >= 0 ){
+			this.result = gengouToAlpha(gengou)[0];
+		} else if( ["Heisei", "Shouwa", "Taishou", "Meiji"].indexOf(ex) >= 0 ){
+			this.result = gengouToAlpha(gengou);
+		} else {
+			throw new Error("unknown gengou example: " + ex);
+		}
+		return this;
 	}
-	if( ["平", "昭", "大", "明"].indexOf(style) >= 0 ){
-		return gengou[0];
-	}
-	if( ["H", "S", "T", "M"].indexOf(style) >= 0 ){
-		return gengouToAlpha(gengou)[0];
-	}
-	if( ["Heisei", "Shouwa", "Taishou", "Meiji"].indexOf(style) >= 0 ){
-		return gengouToAlpha(gengou);
-	}
-	if( typeof style === "function" ){
-		return style(gengou);
-	}
-	throw new Error("unknown gengou style: " + style);
+});
+
+function formatGengou(fmt, info){
+	return fmt(new GengouFormat(info)).toString();
 }
 
 function padLeft(str, n, ch){
@@ -173,25 +224,19 @@ function alphaDigitToZenkaku(ch){
 	return i >= 0 ? zenkakuDigits[i] : ch;
 }
 
-function formatNen(style, nen){
-	style = style || "1";
-	var styleChars = style.split("");
-	var nenStr = nen.toString();
-	var retval;
-	if( styleChars.every(isZenkakuDigit) ){
-		retval = styleChars.map(alphaDigitToZenkaku).join("");
-		if( style[0] === "０" ){
-			return padLeft(retval, style.length, style[0]);
-		} else {
-			return retval;
-		}
+function NenFormat(info){
+	this.info = info;
+	this.result = info.nen.toString();
+}
+
+assign(NenFormat.prototype, {
+	toString: function(){ return this.result; },
+	pad: function(len, ch){
+		this.result = padLeft(this.result, len, ch);
+		return this;
 	}
-	if( styleChars.every(isAlphaDigit) ){
-		if( style[0] === "0" ){
-			return padLeft(nenStr, style.length, style[0]);
-		} else {
-			return nenStr;
-		}
-	}
-	throw new Error("unknown nen style: " + style);
+})
+
+function formatNen(fn, info){
+	return fn(new NenFormat(info)).toString();
 }

@@ -67,5 +67,55 @@ describe("convert from gengou", function(){
 describe("convert date to kanji representation", function(){
 	it("convert year, month and day to kanji representation", function(){
 		expect(kanjidate.toKanji(1989, 1, 8)).equal("平成1年1月8日");
+	});
+});
+
+describe("convert gengou to kanji representation", function(){
+	it("convert gengou with default format", function(){
+		expect(kanjidate.toKanji(1972, 1, 8, {format: "G"})).equal("昭和");
+	});
+	it("convert gengou with full format", function(){
+		var opt = {
+			format: "G",
+			G: function(fmt){ return fmt.example("平成"); }
+		}
+		expect(kanjidate.toKanji(1972, 1, 8, {format: "G"})).equal("昭和");
+	});
+	it("convert gengou with single kanji format", function(){
+		var opt = {
+			format: "G",
+			G: function(fmt){ return fmt.example("平"); }
+		}
+		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("昭");
+	});
+	it("convert gengou with single alphabet format", function(){
+		var opt = {
+			format: "G",
+			G: function(fmt){ return fmt.example("H"); }
+		}
+		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("S");
+	});
+	it("convert gengou with alphabet format", function(){
+		var opt = {
+			format: "G",
+			G: function(fmt){ return fmt.example("Heisei"); }
+		}
+		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("Shouwa");
+	});
+});
+
+describe("convert nen to kanji format", function(){
+	it("convert nen with default format", function(){
+		var opt = {
+			format: "N"
+		};
+		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("47");
 	})
-})
+	it("convert nen with pad format", function(){
+		var opt = {
+			format: "N",
+			N: function(fmt){ return fmt.pad(2, "0"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("07");
+	})
+});
