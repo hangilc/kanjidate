@@ -118,4 +118,25 @@ describe("convert nen to kanji format", function(){
 		};
 		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("07");
 	})
+	it("convert nen with zenkaku format", function(){
+		var opt = {
+			format: "N",
+			N: function(fmt){ return fmt.zenkaku(); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("７");
+	})
+	it("convert nen with zenkaku and pad format", function(){
+		var opt = {
+			format: "N",
+			N: function(fmt){ return fmt.zenkaku().pad(2, "０"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０７");
+	})
+	it("convert nen with zenkaku and gan format", function(){
+		var opt = {
+			format: "N",
+			N: function(fmt){ return fmt.zenkaku().gan(); }
+		};
+		expect(kanjidate.toKanji(1989, 1, 8, opt)).equal("元");
+	})
 });

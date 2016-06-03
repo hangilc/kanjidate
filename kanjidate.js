@@ -224,18 +224,46 @@ function alphaDigitToZenkaku(ch){
 	return i >= 0 ? zenkakuDigits[i] : ch;
 }
 
-function NenFormat(info){
+function NumberFormat(info){
 	this.info = info;
-	this.result = info.nen.toString();
+}
+
+assign(NumberFormat.prototype, {
+	toString: function(){
+		return this.result.toString();
+	},
+	zenkaku: function(){
+		this.result = this.result.toString().split("").map(alphaDigitToZenkaku).join("");
+		return this;
+	},
+	pad: function(len, ch){
+		this.result = padLeft(this.result.toString(), len, ch);
+		return this;
+	}
+});
+
+function inherit(child, parent){
+	function f(){ }
+	f.prototype = parent.prototype;
+
+	child.prototype = assign(new f(), child.prototype);
+}
+
+function NenFormat(info){
+	NumberFormat.call(this, info);
+	this.result = info.nen;
 }
 
 assign(NenFormat.prototype, {
-	toString: function(){ return this.result; },
-	pad: function(len, ch){
-		this.result = padLeft(this.result, len, ch);
+	gan: function(){
+		if( this.info.nen === 1 ){
+			this.result = "元";
+		}
 		return this;
 	}
 })
+
+inherit(NenFormat, NumberFormat);
 
 function formatNen(fn, info){
 	return fn(new NenFormat(info)).toString();
