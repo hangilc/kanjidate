@@ -170,3 +170,33 @@ describe("convert month to kanji format", function(){
 		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０１");
 	})
 });
+
+describe("convert day to kanji format", function(){
+	it("convert day with default format", function(){
+		var opt = {
+			format: "D"
+		};
+		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("8");
+	})
+	it("convert day with pad format", function(){
+		var opt = {
+			format: "D",
+			D: function(fmt){ return fmt.pad(2, "0"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("08");
+	})
+	it("convert day with zenkaku format", function(){
+		var opt = {
+			format: "D",
+			D: function(fmt){ return fmt.zenkaku(); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("８");
+	})
+	it("convert day with zenkaku and pad format", function(){
+		var opt = {
+			format: "D",
+			D: function(fmt){ return fmt.zenkaku().pad(2, "０"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０８");
+	})
+});
