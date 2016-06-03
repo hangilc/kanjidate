@@ -66,5 +66,10 @@ var kanjidate = require("kanjidate");
 kanjidate.toKanji(1989, 1, 8)  // ==> "平成1年1月8日"
 ```
 
+* __toKanji(year, month, day, opt)__
+
+returns a string that represents the date with a format specified by _opt_.
+_opt_ may have following properties.
+
 ## License
 This software is released under the MIT License, see [LICENSE.txt](LICENSE.txt).
