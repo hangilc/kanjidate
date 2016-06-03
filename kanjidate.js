@@ -151,6 +151,7 @@ function toKanji(year, month, day, opt){
 		switch(ch){
 			case "G": return formatGengou(opt.G || identity, info);
 			case "N": return formatNen(opt.N || identity, info);
+			case "M": return formatMonth(opt.M || identity, info);
 			default: return ch;
 		}
 	});
@@ -265,6 +266,17 @@ assign(NenFormat.prototype, {
 
 inherit(NenFormat, NumberFormat);
 
+function MonthFormat(info){
+	NumberFormat.call(this, info);
+	this.result = info.month;
+}
+
+inherit(MonthFormat, NumberFormat);
+
 function formatNen(fn, info){
 	return fn(new NenFormat(info)).toString();
+}
+
+function formatMonth(fn, info){
+	return fn(new MonthFormat(info)).toString();
 }

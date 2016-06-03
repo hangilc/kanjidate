@@ -140,3 +140,33 @@ describe("convert nen to kanji format", function(){
 		expect(kanjidate.toKanji(1989, 1, 8, opt)).equal("元");
 	})
 });
+
+describe("convert month to kanji format", function(){
+	it("convert month with default format", function(){
+		var opt = {
+			format: "M"
+		};
+		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("1");
+	})
+	it("convert month with pad format", function(){
+		var opt = {
+			format: "M",
+			M: function(fmt){ return fmt.pad(2, "0"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("01");
+	})
+	it("convert month with zenkaku format", function(){
+		var opt = {
+			format: "M",
+			M: function(fmt){ return fmt.zenkaku(); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("１");
+	})
+	it("convert month with zenkaku and pad format", function(){
+		var opt = {
+			format: "M",
+			M: function(fmt){ return fmt.zenkaku().pad(2, "０"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０１");
+	})
+});
