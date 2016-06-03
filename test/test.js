@@ -200,3 +200,19 @@ describe("convert day to kanji format", function(){
 		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０８");
 	})
 });
+
+describe("convert youbi to kanji format", function(){
+	it("convert youbi with default format", function(){
+		var opt = {
+			format: "Y",
+		}
+		expect(kanjidate.toKanji(2016, 6, 3, opt)).equal("金");
+	})
+	it("convert youbi with full format", function(){
+		var opt = {
+			format: "Y",
+			Y: function(fmt){ return fmt.full(); }
+		}
+		expect(kanjidate.toKanji(2016, 6, 3, opt)).equal("金曜日");
+	})
+})

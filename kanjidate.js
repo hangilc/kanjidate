@@ -153,6 +153,7 @@ function toKanji(year, month, day, opt){
 			case "N": return formatNen(opt.N || identity, info);
 			case "M": return formatMonth(opt.M || identity, info);
 			case "D": return formatDay(opt.D || identity, info);
+			case "Y": return formatYoubi(opt.Y || identity, info);
 			default: return ch;
 		}
 	});
@@ -281,6 +282,22 @@ function DayFormat(info){
 
 inherit(DayFormat, NumberFormat);
 
+function YoubiFormat(info){
+	this.info = info;
+	this.result = info.youbi;
+	return this;
+}
+
+assign(YoubiFormat.prototype, {
+	toString: function(){
+		return this.result.toString();
+	},
+	full: function(){
+		this.result = this.info.youbi + "曜日";
+		return this;
+	}
+});
+
 function formatNen(fn, info){
 	return fn(new NenFormat(info)).toString();
 }
@@ -291,4 +308,8 @@ function formatMonth(fn, info){
 
 function formatDay(fn, info){
 	return fn(new DayFormat(info)).toString();
+}
+
+function formatYoubi(fn, info){
+	return fn(new YoubiFormat(info)).toString();
 }
