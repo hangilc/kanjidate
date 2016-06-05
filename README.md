@@ -66,9 +66,29 @@ var kanjidate = require("kanjidate");
 kanjidate.toKanji(1989, 1, 8)  // ==> "平成1年1月8日"
 ```
 
-### toKanji(year, month, day, opt)
+### toKanji(year, month, day, formatString)
 
-returns a string that represents the date in gengou-nen format that is controlled by _opt_.
+returns a string that represents the date in gengou-nen format that is controlled by _formatString_.
+In the _formatString_, components of date representation (that is, gengou, nen , ...) are indicated between curly braces (`"{...}"`).
+
+The general format of component representation is `{P:opt1,opt2,...}`, in which `P` specifies what part it represets and opt1 (, opt2 ...) specifies options.
+
+Acceptable values for `P` placeholder is as follows:
+
+* G : gengou
+* N : nen
+* M : month
+* D : day
+* Y : youbi (day of week in Japanese)
+
+Available options for each component is described below.
+
+#### G options
+
+Only single kind of options are available that specifies how gengou is formatted.
+
+
+
 _opt_ is an object with following (optional) properties:
 
 #### format
