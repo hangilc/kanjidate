@@ -124,6 +124,7 @@ function fromGengou(gengou, nen){
 exports.fromGengou = fromGengou;
 
 var youbi = ["日", "月", "火", "水", "木", "金", "土"];
+var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Ffriday", "Saturday"];
 
 function InfoEx(info){
 	this.year = info.year;
@@ -258,7 +259,7 @@ function NenFormat(info){
 }
 
 assign(NenFormat.prototype, {
-	gan: function(){
+	gannen: function(){
 		if( this.info.nen === 1 ){
 			this.result = "元";
 		}

@@ -132,10 +132,10 @@ describe("convert nen to kanji format", function(){
 		};
 		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０７");
 	})
-	it("convert nen with zenkaku and gan format", function(){
+	it("convert nen with zenkaku and gannen format", function(){
 		var opt = {
 			format: "N",
-			N: function(fmt){ return fmt.zenkaku().gan(); }
+			N: function(fmt){ return fmt.zenkaku().gannen(); }
 		};
 		expect(kanjidate.toKanji(1989, 1, 8, opt)).equal("元");
 	})
