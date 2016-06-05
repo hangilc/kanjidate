@@ -138,11 +138,66 @@ function InfoEx(info){
 	this.youbi = youbi[this.dayOfWeek];
 }
 
+function parseFormatString(fmtStr){
+	var result = [];
+	var parts = fmtStr.split(/(\{[^}]+)\}/);
+	parts.forEach(function(part){
+		if( part === "" ) return;
+		if( part[0] === "{" ){
+			part = part.substring(1);
+			var token = {};
+			var colon = part.indexOf(":");
+			if( part.indexOf(":") >= 0 ){
+				token.part = part.substring(0, colon);
+				var optStr = part.substring(colon+1).trim();
+				if( optStr !== "" ){
+					if( optStr.indexOf(",") >= 0 ){
+						token.opts = optStr.split(/\s*,\s*/);
+					} else {
+						token.opts = [optStr];
+					}
+				}
+			} else {
+				token.part = part;
+			}
+			result.push(token);
+		} else {
+			result.push(part);
+		}
+	});
+	return result;
+}
+
+function toKanji(year, month, day, fmtStr){
+	var output = [];
+	var info = new InfoEx(new Info(year, month, day));
+	var tokens = parseFormatString(fmtStr);
+	tokens.forEach(function(token){
+		if( typeof token === "string" ){
+			output.push(token);
+		} else {
+			switch(token.part){
+				case "G": output.push(gengouPart(info, token.opts)); break;
+				case "N": output.push(nenPart(info, token.opts)); break;
+				case "M": output.push(numberPart(info.month, token.opts)); break;
+				case "D": output.push(numberPart(info.day, token.opts)); break;
+				case "Y": output.push(youbiPart(info, token.opts)); break;
+			}
+		}
+	})
+	return output.join("");
+}
+exports.toKanji = toKanji;
+
+
+
+
+
 function identity(x){
 	return x;
 }
 
-function toKanji(year, month, day, opt){
+function toKanjiOrig(year, month, day, opt){
 	var info = new InfoEx(new Info(year, month, day));
 	if( !opt ){
 		return info.gengou + info.nen + "年" + month + "月" + day + "日";
@@ -161,7 +216,6 @@ function toKanji(year, month, day, opt){
 	return parts.join("");
 }
 
-exports.toKanji = toKanji;
 
 function gengouToAlpha(gengou){
 	switch(gengou){
@@ -320,3 +374,74 @@ function formatDay(fn, info){
 function formatYoubi(fn, info){
 	return fn(new YoubiFormat(info)).toString();
 }
+
+
+
+
+function gengouPart(info, opts){
+	var result = info.gengou;
+	opts = opts || [];
+	opts.forEach(function(opt){
+		switch(opt){
+			case "2": break;
+			case "1": result = result[0]; break;
+			case "a": result = gengouToAlpha(info.gengou)[0]; break;
+		}
+	});
+	return result;
+}
+
+function numberPart(num, opts){
+	var zenkaku = false;
+	var width = 1;
+	var gannen = false;
+	if( opts ){
+		opts.forEach(function(opt){
+			switch(opt){
+				case "1": width = 1; break;
+				case "2": width = 2; break;
+				case "z": zenkaku = true; break;
+				case "g": gannen = true; break;
+			}
+		});
+	}
+	var result = num.toString();
+	if( zenkaku ){
+		result = result.split().map(alphaDigitToZenkaku).join("");
+	}
+	if( width > 1 && num < 10 ){
+		result = (zenkaku ? "０" : "0") + result;
+	}
+	return result;
+}
+
+function nenPart(info, opts){
+	if( opts && info.nen === 1 && opts.indexOf("g") >= 0 ){
+		return "元";
+	} else {
+		return numberPart(info.nen, opts);
+	}
+}
+
+function youbiPart(info, opts){
+	var style;
+	if( opts ){
+		opts.forEach(function(opt){
+			if( ["1", "2", "3", "alpha"].indexOf(opt) >= 0 ){
+				style = opt;
+			}
+		})
+	}
+	switch(style){
+		case "1": return info.youbi;
+		case "2": return info.youbi + "曜";
+		case "3": return info.youbi + "曜日";
+		case "alpha": return dayOfWeek[info.dayOfWeek];
+		default: return info.youbi;
+	}
+}
+
+console.log(toKanji(1957-31,12,31, "{G}{N}年{M}月{D}日（{Y}）"))
+console.log(toKanji(1957,6,2, "{G}{N}年{M}月{D}日（{Y}）"))
+
+
