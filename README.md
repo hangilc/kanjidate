@@ -7,10 +7,10 @@ Japanese gengou is a system that specifies a year: each year is represented by a
 This library handles recent four gengou types: that is, "平成" (heisei), "昭和" (shouwa), "大正" (taishou), and "明治" (meiji).
 This library assumes that each era starts at the following dates.
 
-* "平成" (heisei) starts at Jan 8, 1989
-* "昭和" (shouwa) starts at Dec 25, 1926
-* "大正" (taishou) starts at Jul 30, 1912
-* "明治" (meiji) starts at Oct 23, 1868
+* "平成" (Heisei) starts at Jan 8, 1989
+* "昭和" (Shouwa) starts at Dec 25, 1926
+* "大正" (Taishou) starts at Jul 30, 1912
+* "明治" (Meiji) starts at Oct 23, 1868
 
 Each era begins with nen of 1. So, Jan 8, 1989 belongs to "平成" (heisei) 1 nen.
 Additionally, Jan 7, 1989 is "昭和" (shouwa) 64 nen.
@@ -73,7 +73,7 @@ _opt_ is an object with following (optional) properties:
 
 #### format
 
-specifies the total output. Following characters are replaced by date information.
+is a string that specifies the total output. Following characters are replaced by date information.
 
 * G : gengou
 * N : nen
@@ -90,23 +90,18 @@ toKanji(2016, 6, 5, opt)  // ==> "平成28年6月"
 
 #### G
 
-specifies a function that controls how gengou is formatted. The function receives an instance of GengouFormat class as argument, and returns an object whose toString() method determines the representation of gengou.  GengouFormat has `example(ex)` method which chooses output format from _ex_. Acceptable values of _ex_ are as follows:
+is a string that specifies how gengou is formatted. Acceptable value is one of the followings:
 
-* "平成" : gengou is output as 2 Japanese characters, such as "平成". "昭和", "大正" or "明治" area also acceptable with the same effect.
-* "平" : gengou is output as single Japanese character, such as "平". "昭", "大" or "明" are also acceptable with the same effect.
-* "H" : gengou is output as single English alphabet, such as "H". "S", "T", "M" are also acceptable with the same effect.
-* "Heisei" : gengou is output as English word, such as "Heisei". "Shouwa", "Taishou", "Meiji" are also acceptable with the same effect.
-
-Default value of `G` is `function(fmt){ return fmt.example("平成"); }`.
+* _full_ : gengou is output as 2 Japanese characters, such as "平成" and "昭和". This is the default value.
+* _short_ : gengou is output as single Japanese character, such as "平" and  "昭".
+* _alpha_ : gengou is output as single English alphabet, such as "H" and "S".
+* _alphaFull_ : gengou is output as English word, such as "Heisei" and "Shouwa".
 
 ```js
-var opt = { 
-	format: "G", 
-	G: function(fmt){
-		return fmt.example("平成");
-	}
-};
-kanjidate.toKanji(1957, 6, 2, opt)  // ==> "昭和"
+kanjidate.toKanji(1957, 6, 2, {format: "G", G: "full"})  // ==> "昭和"
+kanjidate.toKanji(1957, 6, 2, {format: "G", G: "short"})  // ==> "昭"
+kanjidate.toKanji(1957, 6, 2, {format: "G", G: "alpha"})  // ==> "S"
+kanjidate.toKanji(1957, 6, 2, {format: "G", G: "alphaFull"})  // ==> "Shouwa"
 ```
 
 #### N

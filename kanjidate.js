@@ -150,8 +150,8 @@ function toKanji(year, month, day, opt){
 	var format = opt.format || "GN年M月D日";
 	var parts = format.split("").map(function(ch){
 		switch(ch){
-			case "G": return formatGengou(opt.G || identity, info);
-			case "N": return formatNen(opt.N || identity, info);
+			case "G": return formatGengou(opt.G || "full", info);
+			case "N": return formatNen(opt.N || "1", info);
 			case "M": return formatMonth(opt.M || identity, info);
 			case "D": return formatDay(opt.D || identity, info);
 			case "Y": return formatYoubi(opt.Y || identity, info);
@@ -200,7 +200,13 @@ assign(GengouFormat.prototype, {
 });
 
 function formatGengou(fmt, info){
-	return fmt(new GengouFormat(info)).toString();
+	switch(fmt){
+		case "full": return info.gengou;
+		case "short": return info.gengou[0];
+		case "alpha": return gengouToAlpha(info.gengou)[0];
+		case "alphaFull": return gengouToAlpha(info.gengou);
+		default: throw new Error("unknown gengou example: " + ex);
+	}
 }
 
 function padLeft(str, n, ch){

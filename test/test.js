@@ -75,32 +75,16 @@ describe("convert gengou to kanji representation", function(){
 		expect(kanjidate.toKanji(1972, 1, 8, {format: "G"})).equal("昭和");
 	});
 	it("convert gengou with full format", function(){
-		var opt = {
-			format: "G",
-			G: function(fmt){ return fmt.example("平成"); }
-		}
-		expect(kanjidate.toKanji(1972, 1, 8, {format: "G"})).equal("昭和");
+		expect(kanjidate.toKanji(1972, 1, 8, {format: "G", G: "full"})).equal("昭和");
 	});
 	it("convert gengou with single kanji format", function(){
-		var opt = {
-			format: "G",
-			G: function(fmt){ return fmt.example("平"); }
-		}
-		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("昭");
+		expect(kanjidate.toKanji(1972, 1, 8, {format: "G", G: "short"})).equal("昭");
 	});
 	it("convert gengou with single alphabet format", function(){
-		var opt = {
-			format: "G",
-			G: function(fmt){ return fmt.example("H"); }
-		}
-		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("S");
+		expect(kanjidate.toKanji(1972, 1, 8, {format: "G", G: "alpha"})).equal("S");
 	});
 	it("convert gengou with alphabet format", function(){
-		var opt = {
-			format: "G",
-			G: function(fmt){ return fmt.example("Heisei"); }
-		}
-		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("Shouwa");
+		expect(kanjidate.toKanji(1972, 1, 8, {format: "G", G: "alphaFull"})).equal("Shouwa");
 	});
 });
 
