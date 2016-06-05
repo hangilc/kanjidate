@@ -118,4 +118,101 @@ describe("convert nen to kanji format", function(){
 		};
 		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("07");
 	})
+	it("convert nen with zenkaku format", function(){
+		var opt = {
+			format: "N",
+			N: function(fmt){ return fmt.zenkaku(); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("７");
+	})
+	it("convert nen with zenkaku and pad format", function(){
+		var opt = {
+			format: "N",
+			N: function(fmt){ return fmt.zenkaku().pad(2, "０"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０７");
+	})
+	it("convert nen with zenkaku and gan format", function(){
+		var opt = {
+			format: "N",
+			N: function(fmt){ return fmt.zenkaku().gan(); }
+		};
+		expect(kanjidate.toKanji(1989, 1, 8, opt)).equal("元");
+	})
 });
+
+describe("convert month to kanji format", function(){
+	it("convert month with default format", function(){
+		var opt = {
+			format: "M"
+		};
+		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("1");
+	})
+	it("convert month with pad format", function(){
+		var opt = {
+			format: "M",
+			M: function(fmt){ return fmt.pad(2, "0"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("01");
+	})
+	it("convert month with zenkaku format", function(){
+		var opt = {
+			format: "M",
+			M: function(fmt){ return fmt.zenkaku(); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("１");
+	})
+	it("convert month with zenkaku and pad format", function(){
+		var opt = {
+			format: "M",
+			M: function(fmt){ return fmt.zenkaku().pad(2, "０"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０１");
+	})
+});
+
+describe("convert day to kanji format", function(){
+	it("convert day with default format", function(){
+		var opt = {
+			format: "D"
+		};
+		expect(kanjidate.toKanji(1972, 1, 8, opt)).equal("8");
+	})
+	it("convert day with pad format", function(){
+		var opt = {
+			format: "D",
+			D: function(fmt){ return fmt.pad(2, "0"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("08");
+	})
+	it("convert day with zenkaku format", function(){
+		var opt = {
+			format: "D",
+			D: function(fmt){ return fmt.zenkaku(); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("８");
+	})
+	it("convert day with zenkaku and pad format", function(){
+		var opt = {
+			format: "D",
+			D: function(fmt){ return fmt.zenkaku().pad(2, "０"); }
+		};
+		expect(kanjidate.toKanji(1932, 1, 8, opt)).equal("０８");
+	})
+});
+
+describe("convert youbi to kanji format", function(){
+	it("convert youbi with default format", function(){
+		var opt = {
+			format: "Y",
+		}
+		expect(kanjidate.toKanji(2016, 6, 3, opt)).equal("金");
+	})
+	it("convert youbi with full format", function(){
+		var opt = {
+			format: "Y",
+			Y: function(fmt){ return fmt.full(); }
+		}
+		expect(kanjidate.toKanji(2016, 6, 3, opt)).equal("金曜日");
+	})
+})

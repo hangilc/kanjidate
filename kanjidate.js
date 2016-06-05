@@ -151,6 +151,9 @@ function toKanji(year, month, day, opt){
 		switch(ch){
 			case "G": return formatGengou(opt.G || identity, info);
 			case "N": return formatNen(opt.N || identity, info);
+			case "M": return formatMonth(opt.M || identity, info);
+			case "D": return formatDay(opt.D || identity, info);
+			case "Y": return formatYoubi(opt.Y || identity, info);
 			default: return ch;
 		}
 	});
@@ -224,19 +227,89 @@ function alphaDigitToZenkaku(ch){
 	return i >= 0 ? zenkakuDigits[i] : ch;
 }
 
-function NenFormat(info){
+function NumberFormat(info){
 	this.info = info;
-	this.result = info.nen.toString();
+}
+
+assign(NumberFormat.prototype, {
+	toString: function(){
+		return this.result.toString();
+	},
+	zenkaku: function(){
+		this.result = this.result.toString().split("").map(alphaDigitToZenkaku).join("");
+		return this;
+	},
+	pad: function(len, ch){
+		this.result = padLeft(this.result.toString(), len, ch);
+		return this;
+	}
+});
+
+function inherit(child, parent){
+	function f(){ }
+	f.prototype = parent.prototype;
+
+	child.prototype = assign(new f(), child.prototype);
+}
+
+function NenFormat(info){
+	NumberFormat.call(this, info);
+	this.result = info.nen;
 }
 
 assign(NenFormat.prototype, {
-	toString: function(){ return this.result; },
-	pad: function(len, ch){
-		this.result = padLeft(this.result, len, ch);
+	gan: function(){
+		if( this.info.nen === 1 ){
+			this.result = "元";
+		}
 		return this;
 	}
 })
 
+inherit(NenFormat, NumberFormat);
+
+function MonthFormat(info){
+	NumberFormat.call(this, info);
+	this.result = info.month;
+}
+
+inherit(MonthFormat, NumberFormat);
+
+function DayFormat(info){
+	NumberFormat.call(this, info);
+	this.result = info.day;
+}
+
+inherit(DayFormat, NumberFormat);
+
+function YoubiFormat(info){
+	this.info = info;
+	this.result = info.youbi;
+	return this;
+}
+
+assign(YoubiFormat.prototype, {
+	toString: function(){
+		return this.result.toString();
+	},
+	full: function(){
+		this.result = this.info.youbi + "曜日";
+		return this;
+	}
+});
+
 function formatNen(fn, info){
 	return fn(new NenFormat(info)).toString();
+}
+
+function formatMonth(fn, info){
+	return fn(new MonthFormat(info)).toString();
+}
+
+function formatDay(fn, info){
+	return fn(new DayFormat(info)).toString();
+}
+
+function formatYoubi(fn, info){
+	return fn(new YoubiFormat(info)).toString();
 }
