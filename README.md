@@ -17,7 +17,7 @@ Additionally, Jan 7, 1989 is "昭和" (shouwa) 64 nen.
 
 ## API
 
-* __toGengou(year, month, day)__
+### toGengou(year, month, day)
 
 returns ```{gengou: ..., nen: ...}``` that is calculated from _year_, _month_ and _day_.
 If the date does not corresponds to the four eras ("明治", "大正", "昭和", "平成"), it returns an object
@@ -32,7 +32,7 @@ var kanjidate = require("kanjidate");
 kanjidate.toGengou(1957, 6, 2)  // ==> {gengou: "昭和", nen: 32}
 ```
 
-* __toGengou(date)__
+### toGengou(date)
 
 returns ```{gengou: ..., nen: ...}``` that is calculated from _date_. _date_ can be 
 1) a string such as "2016-06-02" (which shoule be acceptable by ```Date.parse```), 
@@ -44,7 +44,7 @@ kanjidate.toGengou("2016-06-02")          // ==> {gengou: "昭和", nen: 32}
 kanjidate.toGengou(new Date(2016, 5, 2))  // ==> {gengou: "昭和", nen: 32}
 ```
 
-* __fromGengou(gengou, nen)__
+### fromGengou(gengou, nen)
 
 returns year corresponding to _gengou_ and _nen_.
 Before calculating year, _nen_ is converted to a number, which is then truncated to integral values.
@@ -57,7 +57,7 @@ var kanjidate = require("kanjidate");
 kanidate.fromGengou("昭和", 32)  // ==> 1957
 ```
 
-* __toKanji(year, month, day)__
+### toKanji(year, month, day)
 
 returns a string that represents the date in gengou-nen format.
 
@@ -65,6 +65,12 @@ returns a string that represents the date in gengou-nen format.
 var kanjidate = require("kanjidate");
 kanjidate.toKanji(1989, 1, 8)  // ==> "平成1年1月8日"
 ```
+
+### toKanji(year, month, day, opt)
+
+returns a string that represents the date in gengou-nen format that is controlled by _opt_.
+_opt_ is an object with following (optional) properties:
+
 
 ## License
 This software is released under the MIT License, see [LICENSE.txt](LICENSE.txt).
