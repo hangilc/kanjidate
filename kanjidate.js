@@ -192,34 +192,6 @@ function toKanji(year, month, day, fmtStr){
 }
 exports.toKanji = toKanji;
 
-
-
-
-
-function identity(x){
-	return x;
-}
-
-function toKanjiOrig(year, month, day, opt){
-	var info = new InfoEx(new Info(year, month, day));
-	if( !opt ){
-		return info.gengou + info.nen + "年" + month + "月" + day + "日";
-	}
-	var format = opt.format || "GN年M月D日";
-	var parts = format.split("").map(function(ch){
-		switch(ch){
-			case "G": return formatGengou(opt.G || "full", info);
-			case "N": return formatNen(opt.N || "1", info);
-			case "M": return formatMonth(opt.M || identity, info);
-			case "D": return formatDay(opt.D || identity, info);
-			case "Y": return formatYoubi(opt.Y || identity, info);
-			default: return ch;
-		}
-	});
-	return parts.join("");
-}
-
-
 function gengouToAlpha(gengou){
 	switch(gengou){
 		case "平成": return "Heisei";
@@ -227,42 +199,6 @@ function gengouToAlpha(gengou){
 		case "大正": return "Taishou";
 		case "明治": return "Meiji";
 		default: throw new Error("unknown gengou: " + gengou);
-	}
-}
-
-function GengouFormat(info){
-	this.info = info;
-	this.result = info.gengou;
-}
-
-assign(GengouFormat.prototype, {
-	toString: function(){
-		return this.result;
-	},
-	example: function(ex){
-		var gengou = this.result;
-		if( ["平成", "昭和", "大正", "明治"].indexOf(ex) >= 0 ){
-			this.result = gengou;
-		} else if( ["平", "昭", "大", "明"].indexOf(ex) >= 0 ){
-			this.result = gengou[0];
-		} else if( ["H", "S", "T", "M"].indexOf(ex) >= 0 ){
-			this.result = gengouToAlpha(gengou)[0];
-		} else if( ["Heisei", "Shouwa", "Taishou", "Meiji"].indexOf(ex) >= 0 ){
-			this.result = gengouToAlpha(gengou);
-		} else {
-			throw new Error("unknown gengou example: " + ex);
-		}
-		return this;
-	}
-});
-
-function formatGengou(fmt, info){
-	switch(fmt){
-		case "full": return info.gengou;
-		case "short": return info.gengou[0];
-		case "alpha": return gengouToAlpha(info.gengou)[0];
-		case "alphaFull": return gengouToAlpha(info.gengou);
-		default: throw new Error("unknown gengou example: " + ex);
 	}
 }
 
@@ -291,95 +227,12 @@ function alphaDigitToZenkaku(ch){
 	return i >= 0 ? zenkakuDigits[i] : ch;
 }
 
-function NumberFormat(info){
-	this.info = info;
-}
-
-assign(NumberFormat.prototype, {
-	toString: function(){
-		return this.result.toString();
-	},
-	zenkaku: function(){
-		this.result = this.result.toString().split("").map(alphaDigitToZenkaku).join("");
-		return this;
-	},
-	pad: function(len, ch){
-		this.result = padLeft(this.result.toString(), len, ch);
-		return this;
-	}
-});
-
 function inherit(child, parent){
 	function f(){ }
 	f.prototype = parent.prototype;
 
 	child.prototype = assign(new f(), child.prototype);
 }
-
-function NenFormat(info){
-	NumberFormat.call(this, info);
-	this.result = info.nen;
-}
-
-assign(NenFormat.prototype, {
-	gannen: function(){
-		if( this.info.nen === 1 ){
-			this.result = "元";
-		}
-		return this;
-	}
-})
-
-inherit(NenFormat, NumberFormat);
-
-function MonthFormat(info){
-	NumberFormat.call(this, info);
-	this.result = info.month;
-}
-
-inherit(MonthFormat, NumberFormat);
-
-function DayFormat(info){
-	NumberFormat.call(this, info);
-	this.result = info.day;
-}
-
-inherit(DayFormat, NumberFormat);
-
-function YoubiFormat(info){
-	this.info = info;
-	this.result = info.youbi;
-	return this;
-}
-
-assign(YoubiFormat.prototype, {
-	toString: function(){
-		return this.result.toString();
-	},
-	full: function(){
-		this.result = this.info.youbi + "曜日";
-		return this;
-	}
-});
-
-function formatNen(fn, info){
-	return fn(new NenFormat(info)).toString();
-}
-
-function formatMonth(fn, info){
-	return fn(new MonthFormat(info)).toString();
-}
-
-function formatDay(fn, info){
-	return fn(new DayFormat(info)).toString();
-}
-
-function formatYoubi(fn, info){
-	return fn(new YoubiFormat(info)).toString();
-}
-
-
-
 
 function gengouPart(info, opts){
 	var style = "2";
