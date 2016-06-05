@@ -124,7 +124,7 @@ function fromGengou(gengou, nen){
 exports.fromGengou = fromGengou;
 
 var youbi = ["日", "月", "火", "水", "木", "金", "土"];
-var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Ffriday", "Saturday"];
+var dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 function InfoEx(info){
 	this.year = info.year;
@@ -169,8 +169,11 @@ function parseFormatString(fmtStr){
 }
 
 function toKanji(year, month, day, fmtStr){
-	var output = [];
 	var info = new InfoEx(new Info(year, month, day));
+	if( !fmtStr ){
+		return info.gengou + info.nen + "年" + month + "月" + day + "日";
+	}
+	var output = [];
 	var tokens = parseFormatString(fmtStr);
 	tokens.forEach(function(token){
 		if( typeof token === "string" ){
@@ -379,16 +382,21 @@ function formatYoubi(fn, info){
 
 
 function gengouPart(info, opts){
-	var result = info.gengou;
-	opts = opts || [];
-	opts.forEach(function(opt){
-		switch(opt){
-			case "2": break;
-			case "1": result = result[0]; break;
-			case "a": result = gengouToAlpha(info.gengou)[0]; break;
-		}
-	});
-	return result;
+	var style = "2";
+	if( opts ){
+		opts.forEach(function(opt){
+			if( ["2", "1", "a", "alpha"].indexOf(opt) >= 0 ){
+				style = opt;
+			}
+		})
+	}
+	switch(style){
+		case "2": return info.gengou;
+		case "1": return info.gengou[0]; 
+		case "a": return gengouToAlpha(info.gengou)[0]; 
+		case "alpha": return gengouToAlpha(info.gengou);
+		default: return info.gengou;
+	}
 }
 
 function numberPart(num, opts){
