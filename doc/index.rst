@@ -1,0 +1,42 @@
+.. kanjidate documentation master file, created by
+   sphinx-quickstart on Wed Jun 08 14:47:14 2016.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+kanjidate API documentation
+===========================
+
+.. js:function:: toGengou(year, month, day)
+
+	:param number year: Year in Gregorian calendar.
+	:param number month: Month in Gregorian calendar.
+	:param number day: Day in Gregorian calendar.
+	:returns: The year in Japanese calendar ``{gengou: ..., nen: ...}`` that corresponds to Gregorian calendar.
+
+	This function converts Gregorian calendar to Japanese calendar.
+
+	.. code-block:: js
+
+		toGengou(1957, 6, 2) // --> {gengou: "昭和", nen: 32}
+
+	It should be noted that year, month and day in Gregorian calendar are neccesary to determine the corresponding Japanese year (pair of gengou and nen), since Japanese gengou (era) can start at the middle of a year.
+	For example, gengou of Heisei (平成) starts at Jan 8, 1989. Therefore, Jan 8, 1989 corresponds to Heisei 1 nen (year); but Jan 7, 1989 corresponds to Shouwa (昭和) 64 nen.
+
+.. js:function:: toGengou(date)
+
+	:param object date: An object representing Gregorian date
+	:returns: The year in Japanese calendar ``{gengou: ..., nen: ...}`` that corresponds to Gregorian calendar.
+
+	This function is the same as ``toGengou(year, month, day)``, except that the date in Gregorian calendar is represented by an Javascript object. 
+
+	.. code-block:: js
+
+		toGengou("1957-06-02")          // --> {gengou: "昭和", nen: 32}
+		toGengou("Jul 2, 1957")         // --> {gengou: "昭和", nen: 32}
+		toGengou(new Date(1957, 5, 2))  // --> {gengou: "昭和", nen: 32}
+
+	Acceptable values for date are:
+
+	- "{year}-{month}-{day}" (string) as used by MySQL
+	- a string that is acceptable by ``Date.parse``
+	

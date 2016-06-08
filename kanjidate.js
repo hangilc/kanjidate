@@ -1,3 +1,13 @@
+var timezoneOffset = new Date().getTimezoneOffset() * 60 * 1000;
+
+var trunc = Math.trunc || function(x){
+	if( x >= 0 ){
+		return Math.floor(x);
+	} else {
+		return Math.ceil(x);
+	}
+};
+
 function lt(year1, month1, day1, year2, month2, day2){
 	if( year1 < year2 ){
 		return true;
@@ -28,9 +38,9 @@ var assign = Object.assign || function(dst, src){
 }
 
 function Info(year, month, day){
-	this.year = Math.floor(+year);
-	this.month = Math.floor(+month); 
-	this.day = Math.floor(+day);
+	this.year = trunc(+year);
+	this.month = trunc(+month); 
+	this.day = trunc(+day);
 	if( year <= 0 ){
 		throw new Error("invalid year: " + year);
 	}
@@ -47,7 +57,7 @@ Info.fromDate = function(date){
 };
 
 Info.fromTimeStamp = function(ts){
-	return Info.fromDate(new Date(ts));
+	return Info.fromDate(new Date(ts + timezoneOffset));
 }
 
 Info.fromString = function(str){
@@ -301,8 +311,5 @@ function youbiPart(info, opts){
 		default: return info.youbi;
 	}
 }
-
-console.log(toKanji(1957-31,12,31, "{G}{N}年{M}月{D}日（{Y}）"))
-console.log(toKanji(1957,6,2, "{G}{N}年{M}月{D}日（{Y}）"))
 
 
