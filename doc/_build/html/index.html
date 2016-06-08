@@ -124,31 +124,38 @@
 </div>
 <p>It should be noted that year, month and day in Gregorian calendar are neccesary to determine the corresponding Japanese year (pair of gengou and nen), since Japanese gengou (era) can start at the middle of a year.
 For example, gengou of Heisei (平成) starts at Jan 8, 1989. Therefore, Jan 8, 1989 corresponds to Heisei 1 nen (year); but Jan 7, 1989 corresponds to Shouwa (昭和) 64 nen.</p>
+<p>Date before Jan 1, 1873 (at which Japan adopted Gregorian calendar) is not supported. If it is called with such date, it returns with (non-existent) gengou of <code class="docutils literal"><span class="pre">&quot;西暦&quot;</span></code> (meaning &#8220;Western calendar&#8221; in Japanese) and nen of year (unmodified).</p>
+<div class="highlight-js"><div class="highlight"><pre><span class="nx">toGengou</span><span class="p">(</span><span class="mi">1873</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// -&gt; {gengou: &quot;明治&quot;, nen: 1}</span>
+<span class="nx">toGengou</span><span class="p">(</span><span class="mi">1872</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span> <span class="c1">// -&gt; {gengou: &quot;西暦&quot;, nen: 1982}</span>
+</pre></div>
+</div>
+<p>All arguments (year, month and day) are supposed to be integral number. Otherwise, results are unspecified.</p>
 </dd></dl>
 
 <dl class="function">
-<dt>
-<code class="descname">toGengou</code><span class="sig-paren">(</span><em>date</em><span class="sig-paren">)</span></dt>
+<dt id="fromGengou">
+<code class="descname">fromGengou</code><span class="sig-paren">(</span><em>gengou</em>, <em>nen</em><span class="sig-paren">)</span><a class="headerlink" href="#fromGengou" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
-<li><strong>date</strong> (<em>object</em>) &#8211; An object representing Gregorian date</li>
+<li><strong>gengou</strong> (<em>string</em>) &#8211; Gengou in Japanese calendar.</li>
+<li><strong>nen</strong> (<em>number</em>) &#8211; Nen in Japanese calendar.</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The year in Japanese calendar <code class="docutils literal"><span class="pre">{gengou:</span> <span class="pre">...,</span> <span class="pre">nen:</span> <span class="pre">...}</span></code> that corresponds to Gregorian calendar.</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The Gregorian year corresponding to the Japanese calendar.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p>This function is the same as <code class="docutils literal"><span class="pre">toGengou(year,</span> <span class="pre">month,</span> <span class="pre">day)</span></code>, except that the date in Gregorian calendar is represented by an Javascript object.</p>
-<div class="highlight-js"><div class="highlight"><pre><span class="nx">toGengou</span><span class="p">(</span><span class="s2">&quot;1957-06-02&quot;</span><span class="p">)</span>          <span class="c1">// --&gt; {gengou: &quot;昭和&quot;, nen: 32}</span>
-<span class="nx">toGengou</span><span class="p">(</span><span class="s2">&quot;Jul 2, 1957&quot;</span><span class="p">)</span>         <span class="c1">// --&gt; {gengou: &quot;昭和&quot;, nen: 32}</span>
-<span class="nx">toGengou</span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="mi">1957</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1">// --&gt; {gengou: &quot;昭和&quot;, nen: 32}</span>
+<p>Gengou should be one of &#8220;平成&#8221; (Heisei), &#8220;昭和&#8221; (Shouwa), &#8220;大正&#8221; (Taishou), &#8220;明治&#8221; (Meiji) or &#8220;西暦&#8221; (Seireki).
+If gengou is &#8220;明治&#8221;, nen should be 6 or greater; otherwise, return value is unspecified. &#8220;西暦&#8221; is not actually a valid gengou, and if supplied, the function returns nen as unmodified.</p>
+<div class="highlight-js"><div class="highlight"><pre><span class="nx">fromGengou</span><span class="p">(</span><span class="s2">&quot;平成&quot;</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span> <span class="c1">// -&gt; 2016)</span>
 </pre></div>
 </div>
+<p>Nen is supposed to be a valid integral number; otherwise, returned value is unspecified.</p>
 </dd></dl>
 
 </div>
