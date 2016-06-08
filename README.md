@@ -85,7 +85,9 @@ Available options for each component is described below.
 
 #### G options
 
-Only single kind of options are available that specifies how gengou is formatted.
+Option for G (gengou) component is "1", "2", "a", or "alpha".
+
+* "1" : gengou is shown as one Kanji character, such as "平".
 
 
 
