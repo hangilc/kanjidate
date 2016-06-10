@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>kanjidate API documentation &mdash; kanjidate 1.0.0 documentation</title>
@@ -14,7 +15,6 @@
   
 
   
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
 
   
   
@@ -33,7 +33,7 @@
     <link rel="top" title="kanjidate 1.0.0 documentation" href="#"/> 
 
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+  <script src="_static/js/modernizr.min.js"></script>
 
 </head>
 
@@ -43,11 +43,27 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-nav-search">
-        
-          <a href="#" class="fa fa-home"> kanjidate</a>
-        
-        
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="#" class="icon icon-home"> kanjidate
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0.0
+              </div>
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -55,21 +71,23 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-      </div>
 
-      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-        
           
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
+            
+            
+                <!-- Local TOC -->
+                <div class="local-toc"><ul>
 <li><a class="reference internal" href="#">kanjidate API documentation</a></li>
 </ul>
 </div>
+            
           
-        
+        </div>
       </div>
-      &nbsp;
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -84,18 +102,27 @@
       
       <div class="wy-nav-content">
         <div class="rst-content">
-          <div role="navigation" aria-label="breadcrumbs navigation">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="#">Docs</a> &raquo;</li>
       
     <li>kanjidate API documentation</li>
       <li class="wy-breadcrumbs-aside">
         
+          
+        
       </li>
   </ul>
   <hr/>
 </div>
-          <div role="main" class="document">
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="kanjidate-api-documentation">
 <h1>kanjidate API documentation<a class="headerlink" href="#kanjidate-api-documentation" title="Permalink to this headline">¶</a></h1>
@@ -119,13 +146,13 @@
 </tbody>
 </table>
 <p>This function converts Gregorian calendar to Japanese calendar.</p>
-<div class="highlight-js"><div class="highlight"><pre><span class="nx">toGengou</span><span class="p">(</span><span class="mi">1957</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">// --&gt; {gengou: &quot;昭和&quot;, nen: 32}</span>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="nx">toGengou</span><span class="p">(</span><span class="mi">1957</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1">// --&gt; {gengou: &quot;昭和&quot;, nen: 32}</span>
 </pre></div>
 </div>
 <p>It should be noted that year, month and day in Gregorian calendar are neccesary to determine the corresponding Japanese year (pair of gengou and nen), since Japanese gengou (era) can start at the middle of a year.
 For example, gengou of Heisei (平成) starts at Jan 8, 1989. Therefore, Jan 8, 1989 corresponds to Heisei 1 nen (year); but Jan 7, 1989 corresponds to Shouwa (昭和) 64 nen.</p>
 <p>Date before Jan 1, 1873 (at which Japan adopted Gregorian calendar) is not supported. If it is called with such date, it returns with (non-existent) gengou of <code class="docutils literal"><span class="pre">&quot;西暦&quot;</span></code> (meaning &#8220;Western calendar&#8221; in Japanese) and nen of year (unmodified).</p>
-<div class="highlight-js"><div class="highlight"><pre><span class="nx">toGengou</span><span class="p">(</span><span class="mi">1873</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// -&gt; {gengou: &quot;明治&quot;, nen: 1}</span>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="nx">toGengou</span><span class="p">(</span><span class="mi">1873</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// -&gt; {gengou: &quot;明治&quot;, nen: 1}</span>
 <span class="nx">toGengou</span><span class="p">(</span><span class="mi">1872</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">)</span> <span class="c1">// -&gt; {gengou: &quot;西暦&quot;, nen: 1982}</span>
 </pre></div>
 </div>
@@ -152,15 +179,79 @@ For example, gengou of Heisei (平成) starts at Jan 8, 1989. Therefore, Jan 8, 
 </table>
 <p>Gengou should be one of &#8220;平成&#8221; (Heisei), &#8220;昭和&#8221; (Shouwa), &#8220;大正&#8221; (Taishou), &#8220;明治&#8221; (Meiji) or &#8220;西暦&#8221; (Seireki).
 If gengou is &#8220;明治&#8221;, nen should be 6 or greater; otherwise, return value is unspecified. &#8220;西暦&#8221; is not actually a valid gengou, and if supplied, the function returns nen as unmodified.</p>
-<div class="highlight-js"><div class="highlight"><pre><span class="nx">fromGengou</span><span class="p">(</span><span class="s2">&quot;平成&quot;</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span> <span class="c1">// -&gt; 2016)</span>
+<div class="highlight-js"><div class="highlight"><pre><span></span><span class="nx">fromGengou</span><span class="p">(</span><span class="s2">&quot;平成&quot;</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span> <span class="c1">// -&gt; 2016)</span>
 </pre></div>
 </div>
 <p>Nen is supposed to be a valid integral number; otherwise, returned value is unspecified.</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="toYoubi">
+<code class="descname">toYoubi</code><span class="sig-paren">(</span><em>dayOfWeek</em><span class="sig-paren">)</span><a class="headerlink" href="#toYoubi" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Arguments:</th><td class="field-body"><ul class="first simple">
+<li><strong>dayOfWeek</strong> (<em>number</em>) &#8211; Day of week (Sunday corresponds to 0, Monday is 1, ...)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a character that corresponds to the day of week in Japanese</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Converts day of week represented by number (Sunday, 0; Monday, 1; ...) to a character in Japanese. <em>Youbi</em> means day of week in Japanese.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="26%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">dayOfWeek</th>
+<th class="head">in English</th>
+<th class="head">youbi (returned value)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>(Sunday)</td>
+<td>日</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>(Monday)</td>
+<td>月</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>(Tuesday)</td>
+<td>火</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>(Wednesday)</td>
+<td>水</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>(Thursday)</td>
+<td>木</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>(Friday)</td>
+<td>金</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>(Saturday)</td>
+<td>土</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 
+           </div>
           </div>
           <footer>
   
@@ -170,12 +261,13 @@ If gengou is &#8220;明治&#8221;, nen should be 6 or greater; otherwise, return
   <div role="contentinfo">
     <p>
         &copy; Copyright 2016, Hangil Chang.
+
     </p>
   </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
-  
 </footer>
+
         </div>
       </div>
 

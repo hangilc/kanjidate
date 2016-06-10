@@ -42,3 +42,27 @@ describe("convert from gengou", function(){
 		expect(function(){ return kanjidate.fromGengou("平成", -3); }).to.throw(Error);
 	});
 });
+
+describe("convert day of week to youbi", function(){
+	it("convert Sunday", function(){
+		expect(kanjidate.toYoubi(0)).equal("日")
+	})
+	it("convert Monday", function(){
+		expect(kanjidate.toYoubi(1)).equal("月")
+	})
+	it("convert Tuesday", function(){
+		expect(kanjidate.toYoubi(2)).equal("火")
+	})
+	it("convert Wednesday", function(){
+		expect(kanjidate.toYoubi(3)).equal("水")
+	})
+	it("convert Thursday", function(){
+		expect(kanjidate.toYoubi(4)).equal("木")
+	})
+	it("convert Friday", function(){
+		expect(kanjidate.toYoubi(5)).equal("金")
+	})
+	it("convert Saturday", function(){
+		expect(kanjidate.toYoubi(6)).equal("土")
+	})
+})

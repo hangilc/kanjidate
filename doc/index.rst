@@ -45,3 +45,22 @@ kanjidate API documentation
 		fromGengou("平成", 28) // -> 2016)
 
 	Nen is supposed to be a valid integral number; otherwise, returned value is unspecified.
+
+.. js:function:: toYoubi(dayOfWeek)
+
+	:param number dayOfWeek: Day of week (Sunday corresponds to 0, Monday is 1, ...)
+	:returns: a character that corresponds to the day of week in Japanese
+
+	Converts day of week represented by number (Sunday, 0; Monday, 1; ...) to a character in Japanese. *Youbi* means day of week in Japanese.
+
+	========= ===========  ======================
+	dayOfWeek in English   youbi (returned value)
+	========= ===========  ======================
+	0         (Sunday)     日
+	1         (Monday)     月
+	2         (Tuesday)    火
+	3         (Wednesday)  水
+	4         (Thursday)   木
+	5         (Friday)     金
+	6         (Saturday)   土
+	========= ===========  ======================

@@ -81,6 +81,14 @@ function fromGengou(gengou, nen){
 
 exports.fromGengou = fromGengou;
 
+var youbi = ["日", "月", "火", "水", "木", "金", "土"];
+
+function toYoubi(dayOfWeek){
+	return youbi[dayOfWeek];
+}
+
+exports.toYoubi = toYoubi;
+
 function KanjiDate(year, month, day, hour, minute, second, millisecond){
 	this.year = trunc(+year);
 	this.month = trunc(+month);
