@@ -103,7 +103,7 @@ kanjidate.format("{s:z,2}", 2016, 6, 1, 19, 4, 9) // -> "０９"
 kanjidate.format("{a}", 2016, 6, 1, 9, 4, 9) // -> "午前"
 kanjidate.format("{a:am/pm}", 2016, 6, 1, 9, 4, 9) // -> "am"
 kanjidate.format("{a:AM/PM}", 2016, 6, 1, 9, 4, 9) // -> "AM"
-``
+```
 
 ## Description
 
