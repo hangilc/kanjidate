@@ -128,8 +128,25 @@ function KanjiDate(date){
 }
 
 function KanjiDateExplicit(year, month, day, hour, minute, second, millisecond){
+	if( hour === undefined ) hour = 0;
+	if( minute === undefined ) minute = 0;
+	if( second === undefined ) second = 0;
+	if( millisecond === undefined ) millisecond = 0;
 	var date = new Date(year, month-1, day, hour, minute, second, millisecond);
 	return new KanjiDate(date);
+}
+
+function KanjiDateFromString(str){
+	var m;
+	m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+	if( m ){
+		return KanjiDateExplicit(+m[1], +m[2], +m[3]);
+	}
+	m = str.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/);
+	if( m ){
+		return KanjiDateExplicit(+m[1], +m[2], +m[3], +m[4], +m[5], +m[6]);
+	}
+	throw new Error("cannot convert to KanjiDate");
 }
 
 function parseFormatString(fmtStr){
@@ -253,14 +270,34 @@ function format(formatStr, kdate){
 
 exports.format = function(){
 	var narg = arguments.length;
-	var arg;
+	var formatStr, args, i;
 	if( narg === 0 ){
 		return format(format1, new KanjiDate(new Date()));
 	} else if( narg === 1 ){
-		arg = arguments[0];
-		if( isDateObject(arg) ){
-			return format(format1, new KanjiDate(arg));
+		return format(format1, cvt(arguments[0]));
+	} else {
+		formatStr = arguments[0];
+		if( formatStr == null ){
+			formatStr = format1;
+		}
+		args = [];
+		for(i=1;i<arguments.length;i++){
+			args.push(arguments[i]);
+		}
+		if( args.length === 1 ){
+			return format(formatStr, cvt(args[0]));
+		} else {
+			return format(formatStr, KanjiDateExplicit.apply(null, args));
 		}
 	}
 	throw new Error("invalid format call");
+
+	function cvt(x){
+		if( isDateObject(x) ){
+			return new KanjiDate(x);
+		} else if( typeof x === "string" ){
+			return KanjiDateFromString(x);
+		}
+		throw new Error("cannot convert to KanjiDate");
+	}
 }
