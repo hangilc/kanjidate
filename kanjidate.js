@@ -63,6 +63,19 @@ function isDateObject(obj){
 	return obj instanceof Date;
 }
 
+function removeOpt(opts, what){
+	var result = [];
+	for(var i=0;i<opts.length;i++){
+		var opt = opts[i];
+		if( opt === what ){
+			continue;
+		} else {
+			result.push(opt);
+		}
+	}
+	return result;
+}
+
 function toGengou(year, month, day){
 	if( ge(year, month, day, 1989, 1, 8) ){
 		return { gengou:"平成", nen:year - 1988 };
@@ -156,7 +169,7 @@ function parseFormatString(fmtStr){
 		if( part === "" ) return;
 		if( part[0] === "{" ){
 			part = part.substring(1);
-			var token = {};
+			var token = {opts: []};
 			var colon = part.indexOf(":");
 			if( part.indexOf(":") >= 0 ){
 				token.part = part.substring(0, colon);
@@ -180,16 +193,20 @@ function parseFormatString(fmtStr){
 }
 
 var format1 = "{G}{N}年{M}月{D}日（{Y}）";
+var format2 = "{G}{N}年{M}月{D}日";
+var format3 = "{G:a}{N}.{M}.{D}";
+
+exports.format1 = format1;
+exports.format2 = format2;
+exports.format3 = format3;
 
 function gengouPart(kdate, opts){
 	var style = "2";
-	if( opts ){
-		opts.forEach(function(opt){
-			if( ["2", "1", "a", "alpha"].indexOf(opt) >= 0 ){
-				style = opt;
-			}
-		})
-	}
+	opts.forEach(function(opt){
+		if( ["2", "1", "a", "alpha"].indexOf(opt) >= 0 ){
+			style = opt;
+		}
+	})
 	switch(style){
 		case "2": return kdate.gengou;
 		case "1": return kdate.gengou[0]; 
@@ -203,16 +220,14 @@ function numberPart(num, opts){
 	var zenkaku = false;
 	var width = 1;
 	var gannen = false;
-	if( opts ){
-		opts.forEach(function(opt){
-			switch(opt){
-				case "1": width = 1; break;
-				case "2": width = 2; break;
-				case "z": zenkaku = true; break;
-				case "g": gannen = true; break;
-			}
-		});
-	}
+	opts.forEach(function(opt){
+		switch(opt){
+			case "1": width = 1; break;
+			case "2": width = 2; break;
+			case "z": zenkaku = true; break;
+			case "g": gannen = true; break;
+		}
+	});
 	var result = num.toString();
 	if( zenkaku ){
 		result = result.split().map(alphaDigitToZenkaku).join("");
@@ -224,7 +239,7 @@ function numberPart(num, opts){
 }
 
 function nenPart(kdate, opts){
-	if( opts && kdate.nen === 1 && opts.indexOf("g") >= 0 ){
+	if( kdate.nen === 1 && opts.indexOf("g") >= 0 ){
 		return "元";
 	} else {
 		return numberPart(kdate.nen, opts);
@@ -233,13 +248,11 @@ function nenPart(kdate, opts){
 
 function youbiPart(kdate, opts){
 	var style;
-	if( opts ){
-		opts.forEach(function(opt){
-			if( ["1", "2", "3", "alpha"].indexOf(opt) >= 0 ){
-				style = opt;
-			}
-		})
-	}
+	opts.forEach(function(opt){
+		if( ["1", "2", "3", "alpha"].indexOf(opt) >= 0 ){
+			style = opt;
+		}
+	})
 	switch(style){
 		case "1": return kdate.youbi;
 		case "2": return kdate.youbi + "曜";
@@ -247,6 +260,18 @@ function youbiPart(kdate, opts){
 		case "alpha": return dayOfWeek[kdate.dayOfWeek];
 		default: return kdate.youbi;
 	}
+}
+
+function hourPart(hour, opts){
+	var ampm = false;
+	if( opts.indexOf("12") >= 0 ){
+		ampm = true;
+		opts = removeOpt(opts, "12");
+	}
+	if( ampm ){
+		hour = hour % 12;
+	}
+	return numberPart(hour, opts);
 }
 
 function format(formatStr, kdate){
@@ -262,6 +287,9 @@ function format(formatStr, kdate){
 				case "M": output.push(numberPart(kdate.month, token.opts)); break;
 				case "D": output.push(numberPart(kdate.day, token.opts)); break;
 				case "Y": output.push(youbiPart(kdate, token.opts)); break;
+				case "h": output.push(hourPart(kdate.hour, token.opts)); break;
+				case "m": output.push(numberPart(kdate.minute, token.opts)); break;
+				case "s": output.push(numberPart(kdate.second, token.opts)); break;
 			}
 		}
 	})

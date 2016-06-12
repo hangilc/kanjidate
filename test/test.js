@@ -165,6 +165,39 @@ describe("convert day to kanji format", function(){
 	})
 });
 
+describe("format hour part", function(){
+	it("default format", function(){
+		expect(kanjidate.format("{h}", 2016, 6, 12, 8)).equal("8");
+	});
+	it("default format", function(){
+		expect(kanjidate.format("{h}", 2016, 6, 12, 18)).equal("18");
+	});
+	it("am/pm format", function(){
+		expect(kanjidate.format("{h:12}", 2016, 6, 12, 18)).equal("6");
+	});
+	it("composite format", function(){
+		expect(kanjidate.format("{h:12,z,2}", 2016, 6, 12, 18)).equal("０６");
+	});
+});
+
+describe("format minute part", function(){
+	it("default format", function(){
+		expect(kanjidate.format("{m}", 2016, 6, 12, 8, 32)).equal("32");
+	});
+	it("default format", function(){
+		expect(kanjidate.format("{m}", 2016, 6, 12, 8, 7)).equal("7");
+	});
+});
+
+describe("format second part", function(){
+	it("default format", function(){
+		expect(kanjidate.format("{s}", 2016, 6, 12, 8, 32, 48)).equal("48");
+	});
+	it("default format", function(){
+		expect(kanjidate.format("{s}", 2016, 6, 12, 8, 6, 2)).equal("2");
+	});
+});
+
 
 
 
