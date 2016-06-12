@@ -52,7 +52,57 @@ kanjidate.format(kanjidate.f12, 2016, 6, 12) // -> "平成２８年０６月１�
 ### Explicit formatting
 
 ```js
-kanjidate.format("")
+// gengou
+kanjidate.format("Current gengou: {G}", new Date()) // -> "Current gengou: 平成"
+kanjidate.format("{G:1}", 2016, 6, 12) // -> "平" ; 1 character
+kanjidate.format("{G:2}", 2016, 6, 12) // -> "平成" ; 2 characters
+kanjidate.format("{G:a}", 2016, 6, 12) // -> "H"
+kanjidate.format("{G:alpha}", 2016, 6, 12) // -> "Heisei"
+
+// nen
+kanjidate.format("{N}", 2016, 6, 12) // -> "28"
+kanjidate.format("{N:1}", 2016, 6, 12) // -> "28" ; same as above
+kanjidate.format("{N:2}", 1996, 6, 12) // -> "08"
+kanjidate.format("{N:z}", 1996, 6, 12) // -> "８" ; zenkaku (wider display form)
+kanjidate.format("{N:z,2}", 1996, 6, 12) // -> "０８"
+kanjidate.format("{N:2,z}", 1996, 6, 12) // -> "０８" ; same as above
+kanjidate.format("{N:g}", 1989, 1, 8) // -> "元" ; special form of first year (1 nen) 
+kanjidate.format("{N:g}", 2016, 6, 12) // -> "28" ; no effect if it is not first year
+
+// month
+kanjidate.format("{M}", 2016, 6, 12) // -> "6"
+kanjidate.format("{M:2}", 2016, 6, 12) // -> "06"
+kanjidate.format("{M:z}", 2016, 6, 12) // -> "６"
+kanjidate.format("{M:z,2}", 2016, 6, 12) // -> "０６"
+
+// day
+kanjidate.format("{D}", 2016, 6, 1) // -> "1"
+kanjidate.format("{D:2}", 2016, 6, 1) // -> "01"
+kanjidate.format("{D:z}", 2016, 6, 1) // -> "１"
+kanjidate.format("{D:z,2}", 2016, 6, 1) // -> "０１"
+
+// hour
+kanjidate.format("{h}", 2016, 6, 1, 19, 4, 9) // -> "19"
+kanjidate.format("{h:12}", 2016, 6, 1, 19, 4, 9) // -> "7" ; am/pm format
+kanjidate.format("{h:12,2}", 2016, 6, 1, 19, 4, 9) // -> "07" ; am/pm format in 2 digits
+kanjidate.format("{h:z}", 2016, 6, 1, 19, 4, 9) // -> "１９"
+
+// minute
+kanjidate.format("{m}", 2016, 6, 1, 19, 4, 9) // -> "4"
+kanjidate.format("{m:2}", 2016, 6, 1, 19, 4, 9) // -> "04"
+kanjidate.format("{m:z}", 2016, 6, 1, 19, 4, 9) // -> "４"
+kanjidate.format("{m:z,2}", 2016, 6, 1, 19, 4, 9) // -> "０４"
+
+// second
+kanjidate.format("{s}", 2016, 6, 1, 19, 4, 9) // -> "9"
+kanjidate.format("{s:2}", 2016, 6, 1, 19, 4, 9) // -> "09"
+kanjidate.format("{s:z}", 2016, 6, 1, 19, 4, 9) // -> "９"
+kanjidate.format("{s:z,2}", 2016, 6, 1, 19, 4, 9) // -> "０９"
+
+// am/pm
+kanjidate.format("{a}", 2016, 6, 1, 9, 4, 9) // -> "午前"
+kanjidate.format("{a:am/pm}", 2016, 6, 1, 9, 4, 9) // -> "am"
+kanjidate.format("{a:AM/PM}", 2016, 6, 1, 9, 4, 9) // -> "AM"
 ``
 
 ## Description
