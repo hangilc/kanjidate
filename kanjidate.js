@@ -192,13 +192,31 @@ function parseFormatString(fmtStr){
 	return result;
 }
 
-var format1 = "{G}{N}年{M}月{D}日（{Y}）";
+var format1 = "{G}{N}年{M}月{D}日（{W}）";
 var format2 = "{G}{N}年{M}月{D}日";
 var format3 = "{G:a}{N}.{M}.{D}";
+var format4 = "{G}{N:2}年{M:2}月{D:2}日（{W}）";
+var format5 = "{G}{N:2}年{M:2}月{D:2}日";
+var format6 = "{G:a}{N:2}.{M:2}.{D:2}";
+var format7 = "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分{s}秒";
+var format8 = "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分{s:2}秒";
+var format9 = "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分";
+var format10 = "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分";
+var format11 = "{G}{N:z}年{M:z}月{D:z}日";
+var format12 = "{G}{N:z,2}年{M:z,2}月{D:z,2}日";
 
-exports.format1 = format1;
-exports.format2 = format2;
-exports.format3 = format3;
+exports.format1 = exports.f1 = format1;
+exports.format2 = exports.f2 = format2;
+exports.format3 = exports.f3 = format3;
+exports.format4 = exports.f4 = format4;
+exports.format5 = exports.f5 = format5;
+exports.format6 = exports.f6 = format6;
+exports.format7 = exports.f7 = format7;
+exports.format8 = exports.f8 = format8;
+exports.format9 = exports.f9 = format9;
+exports.format10 = exports.f10 = format10;
+exports.format11 = exports.f11 = format11;
+exports.format12 = exports.f12 = format12;
 
 function gengouPart(kdate, opts){
 	var style = "2";
@@ -219,18 +237,16 @@ function gengouPart(kdate, opts){
 function numberPart(num, opts){
 	var zenkaku = false;
 	var width = 1;
-	var gannen = false;
 	opts.forEach(function(opt){
 		switch(opt){
 			case "1": width = 1; break;
 			case "2": width = 2; break;
 			case "z": zenkaku = true; break;
-			case "g": gannen = true; break;
 		}
 	});
 	var result = num.toString();
 	if( zenkaku ){
-		result = result.split().map(alphaDigitToZenkaku).join("");
+		result = result.split("").map(alphaDigitToZenkaku).join("");
 	}
 	if( width > 1 && num < 10 ){
 		result = (zenkaku ? "０" : "0") + result;
@@ -291,6 +307,10 @@ function ampmPart(kdate, opts){
 	}
 }
 
+function yearPart(year, opts){
+	return year.toString();
+}
+
 function format(formatStr, kdate){
 	var output = [];
 	var tokens = parseFormatString(formatStr);
@@ -303,11 +323,12 @@ function format(formatStr, kdate){
 				case "N": output.push(nenPart(kdate, token.opts)); break;
 				case "M": output.push(numberPart(kdate.month, token.opts)); break;
 				case "D": output.push(numberPart(kdate.day, token.opts)); break;
-				case "Y": output.push(youbiPart(kdate, token.opts)); break;
+				case "W": output.push(youbiPart(kdate, token.opts)); break;
 				case "h": output.push(hourPart(kdate.hour, token.opts)); break;
 				case "m": output.push(numberPart(kdate.minute, token.opts)); break;
 				case "s": output.push(numberPart(kdate.second, token.opts)); break;
 				case "a": output.push(ampmPart(kdate, token.opts)); break;
+				case "Y": output.push(yearPart(kdate.year, token.opts)); break;
 			}
 		}
 	})

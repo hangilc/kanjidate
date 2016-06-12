@@ -89,13 +89,13 @@ describe("format date with default format", function(){
 
 describe("format date with format string", function(){
 	it("format Date", function(){
-		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}）", new Date(2016, 6-1, 14))).equal("平成28年6月14日（火）");
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}）", new Date(2016, 6-1, 14))).equal("平成28年6月14日（火）");
 	})
 	it("format Date", function(){
-		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}）", "2016-06-14")).equal("平成28年6月14日（火）");
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}）", "2016-06-14")).equal("平成28年6月14日（火）");
 	})
 	it("format Date", function(){
-		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}）", 2016, 6, 14)).equal("平成28年6月14日（火）");
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}）", 2016, 6, 14)).equal("平成28年6月14日（火）");
 	})
 });
 
@@ -127,8 +127,14 @@ describe("convert nen to kanji format", function(){
 	it("convert nen with zenkaku format", function(){
 		expect(kanjidate.format("{N:z}", 1932, 1, 8)).equal("７");
 	})
+	it("convert nen with zenkaku format", function(){
+		expect(kanjidate.format("{N:z}", 2016, 1, 8)).equal("２８");
+	})
 	it("convert nen with zenkaku and pad format", function(){
 		expect(kanjidate.format("{N:z,2}", 1932, 1, 8)).equal("０７");
+	})
+	it("convert nen with zenkaku format", function(){
+		expect(kanjidate.format("{N:z,2}", 2016, 1, 8)).equal("２８");
 	})
 	it("convert nen with zenkaku and gannen format", function(){
 		expect(kanjidate.format("{N:g}", 1989, 1, 8)).equal("元");
@@ -230,22 +236,67 @@ describe("format am/pm part", function(){
 
 describe("format datetime", function(){
 	it("plain", function(){
-		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}） {a}{h:12}時{m}分{s}秒", 2016, 6, 14, 8, 12, 34))
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分{s}秒", 2016, 6, 14, 8, 12, 34))
 			.equal("平成28年6月14日（火） 午前8時12分34秒")
 	})
 	it("plain pm", function(){
-		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}） {a}{h:12}時{m}分{s}秒", 2016, 6, 14, 19, 12, 34))
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分{s}秒", 2016, 6, 14, 19, 12, 34))
 			.equal("平成28年6月14日（火） 午後7時12分34秒")
 	})
 	it("time in alphabet", function(){
-		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}） {h:12}:{m}:{s}{a:am/pm}", 2016, 6, 14, 19, 12, 34))
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}） {h:12}:{m}:{s}{a:am/pm}", 2016, 6, 14, 19, 12, 34))
 			.equal("平成28年6月14日（火） 7:12:34pm")
 	})
 	it("time in alphabet", function(){
-		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}） {h:12}:{m}:{s}{a:AM/PM}", 2016, 6, 14, 19, 12, 34))
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}） {h:12}:{m}:{s}{a:AM/PM}", 2016, 6, 14, 19, 12, 34))
 			.equal("平成28年6月14日（火） 7:12:34PM")
 	})
 });
+
+describe("format {Y} (year) part", function(){
+	it("format year", function(){
+		expect(kanjidate.format("{Y}", 2016, 6, 14)).equal("2016");
+	})
+});
+
+describe("predefined formatting", function(){
+	it("format1", function(){
+		expect(kanjidate.format(kanjidate.f1, 2016, 6, 12)).equal("平成28年6月12日（日）");
+	});
+	it("format2", function(){
+		expect(kanjidate.format(kanjidate.f2, new Date(2016, 6-1, 12))).equal("平成28年6月12日");
+	});
+	it("format3", function(){
+		expect(kanjidate.format(kanjidate.f3, "2016-06-12")).equal("H28.6.12");
+	});
+	it("format4", function(){
+		expect(kanjidate.format(kanjidate.f4, 2016, 6, 12)).equal("平成28年06月12日（日）");
+	});
+	it("format5", function(){
+		expect(kanjidate.format(kanjidate.f5, 2016, 6, 12)).equal("平成28年06月12日");
+	});
+	it("format6", function(){
+		expect(kanjidate.format(kanjidate.f6, "2016-06-12")).equal("H28.06.12");
+	});
+	it("format7", function(){
+		expect(kanjidate.format(kanjidate.f7, 2016, 6, 12, 14, 26, 8)).equal("平成28年6月12日（日） 午後2時26分8秒");
+	});
+	it("format8", function(){
+		expect(kanjidate.format(kanjidate.f8, 2016, 6, 12, 14, 26, 8)).equal("平成28年06月12日（日） 午後02時26分08秒");
+	});
+	it("format9", function(){
+		expect(kanjidate.format(kanjidate.f9, 2016, 6, 12, 14, 26, 8)).equal("平成28年6月12日（日） 午後2時26分");
+	});
+	it("format10", function(){
+		expect(kanjidate.format(kanjidate.f10, 2016, 6, 12, 14, 26, 8)).equal("平成28年06月12日（日） 午後02時26分");
+	});
+	it("format11", function(){
+		expect(kanjidate.format(kanjidate.f11, 2016, 6, 12, 14, 26, 8)).equal("平成２８年６月１２日");
+	});
+	it("format11", function(){
+		expect(kanjidate.format(kanjidate.f12, 2016, 6, 12, 14, 26, 8)).equal("平成２８年０６月１２日");
+	});
+})
 
 
 

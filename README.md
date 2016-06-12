@@ -1,5 +1,59 @@
 # kanjidate
-A small javascript library that handles conversion between date and Japanese gengou.
+
+A small javascript library that 1) formats date in Japanese and 2) converts dates between Gregorian calendar and Japanese calendar.
+
+## Install
+
+### node.js
+
+```
+npm install kanjidate
+```
+
+in javascript source
+
+```js
+var kanjidate = require("kanjidate");
+```
+
+### Browser
+
+```html
+<script src="/path/to/kanjidate.js"></script>
+```
+
+## Examples
+
+### Default formatting
+
+```js
+kanjidate.format() // -> "平成28年6月12日（日）" ; formats current date in default format
+kanjidate.format(new Date(2016, 6-1, 12)) // -> "平成28年6月12日（日）" 
+kanjidate.format("2016-06-12") // -> "平成28年6月12日（日）" 
+```
+
+## Predefined format
+
+```js
+kanjidate.format(kanjidate.f1, 2016, 6, 12) // -> "平成28年6月12日（日）"
+kanjidate.format(kanjidate.f2, new Date(2016, 6-1, 12)) // -> "平成28年6月12日"
+kanjidate.format(kanjidate.f3, "2016-06-12") // -> "H28.6.12"
+kanjidate.format(kanjidate.f4, 2016, 6, 12) // -> "平成28年06月12日（日）"
+kanjidate.format(kanjidate.f5, 2016, 6, 12) // -> "平成28年06月12日"
+kanjidate.format(kanjidate.f6, 2016, 6, 12) // -> "H28.06.12"
+kanjidate.format(kanjidate.f7, 2016, 6, 12, 14, 26, 8) // -> "平成28年6月12日（日） 午後2時26分8秒"
+kanjidate.format(kanjidate.f8, 2016, 6, 12, 14, 26, 8) // -> "平成28年06月12日（日） 午後02時26分08秒"
+kanjidate.format(kanjidate.f9, 2016, 6, 12, 14, 26, 8) // -> "平成28年6月12日（日） 午後2時26分"
+kanjidate.format(kanjidate.f10, 2016, 6, 12, 14, 26, 8) // -> "平成28年06月12日（日） 午後02時26分"
+kanjidate.format(kanjidate.f11, 2016, 6, 12) // -> "平成２８年６月１２日"
+kanjidate.format(kanjidate.f12, 2016, 6, 12) // -> "平成２８年０６月１２日"
+```
+
+### Explicit formatting
+
+```js
+kanjidate.format("")
+``
 
 ## Description
 
