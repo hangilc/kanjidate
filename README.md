@@ -81,6 +81,13 @@ kanjidate.format("{D:2}", 2016, 6, 1) // -> "01"
 kanjidate.format("{D:z}", 2016, 6, 1) // -> "１"
 kanjidate.format("{D:z,2}", 2016, 6, 1) // -> "０１"
 
+// youbi (day of week)
+kanjidate.format("{W}", 2016, 6, 14) // -> "火"
+kanjidate.format("{W:1}", 2016, 6, 14) // -> "火" ; same as above
+kanjidate.format("{W:2}", 2016, 6, 14) // -> "火曜"
+kanjidate.format("{W:3}", 2016, 6, 14) // -> "火曜日"
+kanjidate.format("{W:alpha}", 2016, 6, 14) // -> "Tuesday"
+
 // hour
 kanjidate.format("{h}", 2016, 6, 1, 19, 4, 9) // -> "19"
 kanjidate.format("{h:12}", 2016, 6, 1, 19, 4, 9) // -> "7" ; am/pm format
