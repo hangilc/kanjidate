@@ -136,61 +136,56 @@ kanjidate.toYoubi(5) // -> "金" ; Friday
 kanjidate.toYoubi(6) // -> "土" ; Saturday
 ```
 
-## Description
+## Background
 
-Japanese gengou is a system that specifies a year: each year is represented by a pair of gengou (era) and nen (index in the era).
-This library handles recent four gengou types: that is, "平成" (heisei), "昭和" (shouwa), "大正" (taishou), and "明治" (meiji).
-This library assumes that each era starts at the following dates.
+In Japan, currently two calendar systems are mainly used. One system is the Gregorian calendar, which is also used world wide. 
+Another system is the traditional Japanese calendar system, which is based on the reigns of emperor and is used only in Japan. 
+Historically, Japan had been using lunar calendar as in other East Asian countries, but had changed to the Gregorian
+calendar at Jan 1, 1873. This library handles dates after this epoch. Japanese calendar specifies a year with the pair of _gengou_ and _nen_. _gengou_ is the name of the era, and _nen_ is the counting of the year in that era. For example, Gregorian year 2016 corresponds to Heisei 28 nen (that is, 28th year in the Heisei era). Representations of months and days are the same as in the Gregorian calendar. 
 
-* "平成" (Heisei) starts at Jan 8, 1989
-* "昭和" (Shouwa) starts at Dec 25, 1926
+There are four eras after Jan 1, 1873. That is "明治" (Meiji), "大正" (Taishou), "昭和" (Shouwa) and "平成" (Heisei). Their starting dates are:
+
+* "明治" (Meiji) 6 nen corresponds to the Gregorian year 1873.
 * "大正" (Taishou) starts at Jul 30, 1912
-* "明治" (Meiji) starts at Oct 23, 1868
+* "昭和" (Shouwa) starts at Dec 25, 1926
+* "平成" (Heisei) starts at Jan 8, 1989
 
-Each era begins with nen of 1. So, Jan 8, 1989 belongs to "平成" (heisei) 1 nen.
-Additionally, Jan 7, 1989 is "昭和" (shouwa) 64 nen.
+Period from the starting date to the end of that year is the first _nen_. For example, Jan 7, 1989 is the last day in the "昭和" (Shouwa) era (Shouwa 64 nen), and Jan 8, 1989 is the first day in "平成" (Heisei) era (Heisei 1 nen). The whole year 1990 (Jan 1, 1990 - Dec 31, 1990) is Heisei 2 nen. The first nen (1 nen) is also called "元年" ("元" meaning 'origin', and "年" meaning 'year').
 
-## API
-
-### toGengou(year, month, day)
-
-returns ```{gengou: ..., nen: ...}``` that is calculated from _year_, _month_ and _day_.
-If the date does not corresponds to the four eras ("明治", "大正", "昭和", "平成"), it returns an object
-with gengou of "西暦" (meaning "Western calendar") and nen of _year_.
-Before calculating gengou and nen, _year_, _month_ and _day_ are converted to numbers, which are then
-truncated to integral values.
-It throws an ```Error``` if _year_ is not positive, or _month_ is not in the range of 1 upto 12, or 
-_day_ is not in the range of 1 upto 31.
+## Convert the Gregorian year to Japanese _gengou_ and _nen_
 
 ```js
-var kanjidate = require("kanjidate");
-kanjidate.toGengou(1957, 6, 2)  // ==> {gengou: "昭和", nen: 32}
+// toGengou(year, month day) -- returns an object with properties of gengou and nen
+toGengou(2016, 6, 30) // -> {gengou: "平成", nen: 28}
+toGengou(1909, 1, 7)  // -> {gengou: "昭和", nen: 64}
+toGengou(1909, 1, 8)  // -> {gengou: "平成", nen: 1}
+toGengou(1910, 1, 1)  // -> {gengou: "平成", nen: 2}
+toGengou(1911, 1, 1)  // -> {gengou: "平成", nen: 3}
 ```
 
-### toGengou(date)
-
-returns ```{gengou: ..., nen: ...}``` that is calculated from _date_. _date_ can be 
-1) a string such as "2016-06-02" (which shoule be acceptable by ```Date.parse```), 
-or 2) a javascript Date object.
+## Convert Japanese _gengou_and _nen_ to Gregorian year
 
 ```js
-var kanjidate = require("kanjidate");
-kanjidate.toGengou("2016-06-02")          // ==> {gengou: "昭和", nen: 32}
-kanjidate.toGengou(new Date(2016, 5, 2))  // ==> {gengou: "昭和", nen: 32}
+// fromGengou(gengou, nen) -- returns a number (Gregorian year)
+fromGengou("平成", 28) // -> 2016
 ```
 
-### fromGengou(gengou, nen)
-
-returns year corresponding to _gengou_ and _nen_.
-Before calculating year, _nen_ is converted to a number, which is then truncated to integral values.
-if gengou is "西暦" (meaning "Western calendar"), it just returns _nen_.
-It throws an ```Error``` if gengou is not one of "明治", "大正", "昭和", "平成" or "西暦". It also throws an ```Error```
-if _nen_ is zero or negative.
+## Convert day of week to Japanese
 
 ```js
-var kanjidate = require("kanjidate");
-kanidate.fromGengou("昭和", 32)  // ==> 1957
+// toYoubi(dayOfWeek) -- returns a character that corresponds to dayOfWeek (indicated by number)
+//                       Sunday: 0, Monday: 1, ... Saturday: 6
+toYoubi(0) // "日" (Sunday)
+toYoubi(1) // "月" (Monday)
+toYoubi(6) // "月" (Saturday)
 ```
+
+Japanese characters that represent day of week are: "日" (Sunday), "月" (Monday), "火" (Tuesday), "水" (Wednesday), "木" (Thursday), "金" (Friday) and "土" (Saturday). 
+
+Note: "日" is also used to indicate day in the month, and "月" is also used to indicate month. For example, Feb 3 is represented as "2月3日".
+
+
+
 
 ### toKanji(year, month, day)
 
