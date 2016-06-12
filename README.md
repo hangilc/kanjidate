@@ -32,7 +32,7 @@ kanjidate.format(new Date(2016, 6-1, 12)) // -> "平成28年6月12日（日）"
 kanjidate.format("2016-06-12") // -> "平成28年6月12日（日）" 
 ```
 
-## Predefined format
+### Predefined format
 
 ```js
 kanjidate.format(kanjidate.f1, 2016, 6, 12) // -> "平成28年6月12日（日）"
@@ -110,6 +110,30 @@ kanjidate.format("{s:z,2}", 2016, 6, 1, 19, 4, 9) // -> "０９"
 kanjidate.format("{a}", 2016, 6, 1, 9, 4, 9) // -> "午前"
 kanjidate.format("{a:am/pm}", 2016, 6, 1, 9, 4, 9) // -> "am"
 kanjidate.format("{a:AM/PM}", 2016, 6, 1, 9, 4, 9) // -> "AM"
+```
+
+### Gregorian calendar to Japanese calendar
+
+```js
+kanjidate.toGengou(2016, 6, 30) // -> {gengou: "平成", nen: 28}
+```
+
+### Japanese calendar to Gregorian calendar
+
+```js
+kanjidate.fromGengou("平成", 28) // -> 2016
+```
+
+### Japanese day of week
+
+```js
+kanjidate.toYoubi(0) // -> "日" ; Sunday
+kanjidate.toYoubi(1) // -> "月" ; Monday
+kanjidate.toYoubi(2) // -> "火" ; Tuesday
+kanjidate.toYoubi(3) // -> "水" ; Wednesday
+kanjidate.toYoubi(4) // -> "木" ; Thursday
+kanjidate.toYoubi(5) // -> "金" ; Friday
+kanjidate.toYoubi(6) // -> "土" ; Saturday
 ```
 
 ## Description
