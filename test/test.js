@@ -198,6 +198,54 @@ describe("format second part", function(){
 	});
 });
 
+describe("format am/pm part", function(){
+	it("kanji format", function(){
+		expect(kanjidate.format("{a}", 2016, 6, 14, 8)).equal("午前");
+	})
+	it("kanji format", function(){
+		expect(kanjidate.format("{a}", 2016, 6, 14, 12)).equal("午後");
+	})
+	it("kanji format", function(){
+		expect(kanjidate.format("{a}", 2016, 6, 14, 13)).equal("午後");
+	})
+	it("kanji format", function(){
+		expect(kanjidate.format("{a:am/pm}", 2016, 6, 14, 8)).equal("am");
+	})
+	it("kanji format", function(){
+		expect(kanjidate.format("{a:am/pm}", 2016, 6, 14, 12)).equal("pm");
+	})
+	it("kanji format", function(){
+		expect(kanjidate.format("{a:am/pm}", 2016, 6, 14, 13)).equal("pm");
+	})
+	it("kanji format", function(){
+		expect(kanjidate.format("{a:AM/PM}", 2016, 6, 14, 8)).equal("AM");
+	})
+	it("kanji format", function(){
+		expect(kanjidate.format("{a:AM/PM}", 2016, 6, 14, 12)).equal("PM");
+	})
+	it("kanji format", function(){
+		expect(kanjidate.format("{a:AM/PM}", 2016, 6, 14, 13)).equal("PM");
+	})
+});
+
+describe("format datetime", function(){
+	it("plain", function(){
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}） {a}{h:12}時{m}分{s}秒", 2016, 6, 14, 8, 12, 34))
+			.equal("平成28年6月14日（火） 午前8時12分34秒")
+	})
+	it("plain pm", function(){
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}） {a}{h:12}時{m}分{s}秒", 2016, 6, 14, 19, 12, 34))
+			.equal("平成28年6月14日（火） 午後7時12分34秒")
+	})
+	it("time in alphabet", function(){
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}） {h:12}:{m}:{s}{a:am/pm}", 2016, 6, 14, 19, 12, 34))
+			.equal("平成28年6月14日（火） 7:12:34pm")
+	})
+	it("time in alphabet", function(){
+		expect(kanjidate.format("{G}{N}年{M}月{D}日（{Y}） {h:12}:{m}:{s}{a:AM/PM}", 2016, 6, 14, 19, 12, 34))
+			.equal("平成28年6月14日（火） 7:12:34PM")
+	})
+});
 
 
 

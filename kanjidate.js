@@ -274,6 +274,23 @@ function hourPart(hour, opts){
 	return numberPart(hour, opts);
 }
 
+function ampmPart(kdate, opts){
+	var style = "kanji";
+	opts.forEach(function(opt){
+		switch(opt){
+			case "am/pm": style = "am/pm"; break;
+			case "AM/PM": style = "AM/PM"; break;
+		}
+	});
+	var am = kdate.hour < 12;
+	switch(style){
+		case "kanji": return am ? "午前" : "午後";
+		case "am/pm": return am ? "am" : "pm";
+		case "AM/PM": return am ? "AM" : "PM";
+		default : throw new Error("unknown style for AM/PM");
+	}
+}
+
 function format(formatStr, kdate){
 	var output = [];
 	var tokens = parseFormatString(formatStr);
@@ -290,6 +307,7 @@ function format(formatStr, kdate){
 				case "h": output.push(hourPart(kdate.hour, token.opts)); break;
 				case "m": output.push(numberPart(kdate.minute, token.opts)); break;
 				case "s": output.push(numberPart(kdate.second, token.opts)); break;
+				case "a": output.push(ampmPart(kdate, token.opts)); break;
 			}
 		}
 	})
