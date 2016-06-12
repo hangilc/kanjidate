@@ -66,3 +66,19 @@ describe("convert day of week to youbi", function(){
 		expect(kanjidate.toYoubi(6)).equal("土")
 	})
 })
+
+describe("format date with default format", function(){
+	it("convert today with default format", function(){
+		// may fail if tested around 00:00:00
+		var d = new Date();
+		var g = kanjidate.toGengou(d.getFullYear(), d.getMonth()+1, d.getDate());
+		var s = g.gengou + g.nen + "年" + (d.getMonth()+1) + "月" + d.getDate() + "日" + "（" + kanjidate.toYoubi(d.getDay()) + "）";
+		expect(kanjidate.format()).equal(s);
+	});
+	it("convert date with default format", function(){
+		var d = new Date(2016, 6-1, 12);
+		var g = kanjidate.toGengou(d.getFullYear(), d.getMonth()+1, d.getDate());
+		var s = g.gengou + g.nen + "年" + (d.getMonth()+1) + "月" + d.getDate() + "日" + "（" + kanjidate.toYoubi(d.getDay()) + "）";
+		expect(kanjidate.format(d)).equal(s);
+	})
+});
