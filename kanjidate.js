@@ -1,3 +1,5 @@
+(function(exports){
+
 "use strict";
 
 var trunc = Math.trunc || function(x){
@@ -368,3 +370,5 @@ exports.format = function(){
 		throw new Error("cannot convert to KanjiDate");
 	}
 }
+
+})(typeof exports === "undefined" ? (window.kanjidate = {}) : exports);
