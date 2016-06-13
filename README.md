@@ -184,6 +184,24 @@ Japanese characters that represent day of week are: "日" (Sunday), "月" (Monda
 
 Note: "日" is also used to indicate day in the month, and "月" is also used to indicate month. For example, Feb 3 is represented as "2月3日".
 
+## Formatting
+
+```js
+format() // -> "平成28年6月13日（月）"
+```
+
+Formatting of date in Japanese is conducted by ``format``. If called without arguments, ``format`` returns a string representing the current date in the default format. The default format consists of gengou ("平成") , nen ("28年"), month ("6月"), day ("13日") and day of week ("（月）").
+
+```js
+format(new Date(2016, 6-1, 13)) // -> "平成28年6月13日（月）"
+format("2016-06-13") // -> "平成28年6月13日（月）"
+format("2016-06-13 22:53:26") // -> "平成28年6月13日（月）"
+```
+
+If called with one argument, `format` interprets the argument as date and formats the date with the default format. Acceptable arguments are as follows:
+
+* a javascript Date : its local time is used to construct the formatted string. In other words, Date class methods such as `getFullYear`, `getMonth`, ... are used to get the year, month, and other values.
+* a string of the form "YYYY-MM-DD" or "YYYY-MM-DD hh:mm:ss" : values of year, month, ... are extracted from the string.
 
 
 
