@@ -219,8 +219,28 @@ When there are only two arguments, the second argument is interpreted as the dat
 
 The date can be specified by supplying year, month, ... as arguments. Hour, minute, second are optional and supposed to be zero if omitted.
 
+### Format string
+
+Format string is a template for the output string. Format string contains calculated element between curly braces and other parts are output as it is. 
 
 
+Calculated element is specified as follows.
+
+```
+{E:opt,...}
+```
+
+``E`` is the part specifier that indicates what is to be output. For example, ``G`` indicates gengou. After a colon, options are supplied to control the output with finer details. Options (including the colon seperator) can be omitted.
+
+Following is the list of part specifier:
+
+* ``G`` : gengou
+* ``N`` : nen
+* ``M`` : month
+* ``h`` : hour
+* ``m`` : minute
+* ``s`` : second
+* ``a`` : AM/PM
 
 ### toKanji(year, month, day)
 
