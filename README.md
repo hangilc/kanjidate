@@ -347,5 +347,47 @@ format("{am/pm}", 2016, 6, 5, 9, 2, 3) // -> "AM"
 format("{a}", 2016, 6, 5, 19, 2, 3) // -> "PM" 
 ```
 
+## Predfined formats
+
+```js
+var date = new Date(2016, 6, 15, 17, 13, 4);
+
+// f1 : "{G}{N}年{M}月{D}日（{W}）"
+kanjidate.format(kanjidate.f1, 2016, 6, 12) // -> "平成28年6月12日（日）"
+
+// f2 : "{G}{N}年{M}月{D}日"
+kanjidate.format(kanjidate.f2, new Date(2016, 6-1, 12)) // -> "平成28年6月12日"
+
+// f3 : "{G:a}{N}.{M}.{D}"
+kanjidate.format(kanjidate.f3, "2016-06-12") // -> "H28.6.12"
+
+// f4 : "{G}{N:2}年{M:2}月{D:2}日（{W}）"
+kanjidate.format(kanjidate.f4, 2016, 6, 12) // -> "平成28年06月12日（日）"
+
+// f5 : "{G}{N:2}年{M:2}月{D:2}日"
+kanjidate.format(kanjidate.f5, 2016, 6, 12) // -> "平成28年06月12日"
+
+// f6 : "{G:a}{N:2}.{M:2}.{D:2}"
+kanjidate.format(kanjidate.f6, "2016-06-12") // -> "H28.06.12"
+
+// f7 : "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分{s}秒"
+kanjidate.format(kanjidate.f7, 2016, 6, 12, 14, 26, 8) // -> "平成28年6月12日（日） 午後2時26分8秒"
+
+// f8 : "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分{s:2}秒"
+kanjidate.format(kanjidate.f8, 2016, 6, 12, 14, 26, 8) // -> "平成28年06月12日（日） 午後02時26分08秒"
+
+// f9 : "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分"
+kanjidate.format(kanjidate.f9, 2016, 6, 12, 14, 26, 8) // -> "平成28年6月12日（日） 午後2時26分"
+
+// f10 : "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分"
+kanjidate.format(kanjidate.f10, 2016, 6, 12, 14, 26, 8) // -> "平成28年06月12日（日） 午後02時26分"
+
+// f11 : "{G}{N:z}年{M:z}月{D:z}日"
+kanjidate.format(kanjidate.f11, 2016, 6, 12, 14, 26, 8) // -> "平成２８年６月１２日"
+
+// f12 : "{G}{N:z,2}年{M:z,2}月{D:z,2}日"
+kanjidate.format(kanjidate.f12, 2016, 6, 12, 14, 26, 8) // -> "平成２８年０６月１２日"
+```
+
 ## License
 This software is released under the MIT License, see [LICENSE.txt](LICENSE.txt).

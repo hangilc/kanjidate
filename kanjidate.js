@@ -207,18 +207,18 @@ var format10 = "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分";
 var format11 = "{G}{N:z}年{M:z}月{D:z}日";
 var format12 = "{G}{N:z,2}年{M:z,2}月{D:z,2}日";
 
-exports.format1 = exports.f1 = format1;
-exports.format2 = exports.f2 = format2;
-exports.format3 = exports.f3 = format3;
-exports.format4 = exports.f4 = format4;
-exports.format5 = exports.f5 = format5;
-exports.format6 = exports.f6 = format6;
-exports.format7 = exports.f7 = format7;
-exports.format8 = exports.f8 = format8;
-exports.format9 = exports.f9 = format9;
-exports.format10 = exports.f10 = format10;
-exports.format11 = exports.f11 = format11;
-exports.format12 = exports.f12 = format12;
+exports.f1 = format1;
+exports.f2 = format2;
+exports.f3 = format3;
+exports.f4 = format4;
+exports.f5 = format5;
+exports.f6 = format6;
+exports.f7 = format7;
+exports.f8 = format8;
+exports.f9 = format9;
+exports.f10 = format10;
+exports.f11 = format11;
+exports.f12 = format12;
 
 function gengouPart(kdate, opts){
 	var style = "2";
