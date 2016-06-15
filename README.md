@@ -1,6 +1,6 @@
 # kanjidate
 
-A small javascript library that 1) formats date in Japanese and 2) converts dates between Gregorian calendar and Japanese calendar.
+A small Javascript library that 1) formats date in Japanese and 2) converts dates between Gregorian calendar and Japanese calendar.
 
 ## Install
 
@@ -10,7 +10,7 @@ A small javascript library that 1) formats date in Japanese and 2) converts date
 npm install kanjidate
 ```
 
-in javascript source
+in Javascript source
 
 ```js
 var kanjidate = require("kanjidate");
@@ -187,12 +187,14 @@ Note: "日" is also used to indicate day in the month, and "月" is also used to
 ## Formatting
 
 ```js
+// format() -- formats the current date with the default format
 format() // -> "平成28年6月13日（月）"
 ```
 
 Formatting of date in Japanese is conducted by ``format``. If called without arguments, ``format`` returns a string representing the current date in the default format. The default format consists of gengou ("平成") , nen ("28年"), month ("6月"), day ("13日") and day of week ("（月）").
 
 ```js
+// format(dateArg) -- formats dateArg with the default format
 format(new Date(2016, 6-1, 13)) // -> "平成28年6月13日（月）"
 format("2016-06-13") // -> "平成28年6月13日（月）"
 format("2016-06-13 22:53:26") // -> "平成28年6月13日（月）"
@@ -200,8 +202,23 @@ format("2016-06-13 22:53:26") // -> "平成28年6月13日（月）"
 
 If called with one argument, `format` interprets the argument as date and formats the date with the default format. Acceptable arguments are as follows:
 
-* a javascript Date : its local time is used to construct the formatted string. In other words, Date class methods such as `getFullYear`, `getMonth`, ... are used to get the year, month, and other values.
+* a Javascript Date : its local time is used to construct the formatted string. In other words, Date class methods such as `getFullYear`, `getMonth`, ... are used to get the year, month, and other values.
 * a string of the form "YYYY-MM-DD" or "YYYY-MM-DD hh:mm:ss" : values of year, month, ... are extracted from the string.
+
+```js
+// format(formatStr, ...) -- format the specified date according to formatStr
+// format(formatStr, dateArg)
+// format(formatStr, year, month, day[, hour, minute, second])
+format("{G}{N}年{M}月{D}日（{W}） {h}時{m}分{s}秒", "2016-06-15 14:31:23") // -> "平成28年6月15日 14時31分23秒"
+format("{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分{s}秒", 2016, 6, 15, 14, 31, 23) // -> "平成28年6月15日 午後2時31分23秒"
+```
+
+If called with more than one arguments, `format` uses the first argument as the format string and the remaining arguments to identify the date. Details of format string are described in the following sections. In essence, various elements of the calendar system is indicated between curly braces, and other parts are output as it is. 
+
+When there are only two arguments, the second argument is interpreted as the date to be formatted. It can be a Javascript Date object or a string. These arguments are handled as in the case when `format` is called with single argument.
+
+The date can be specified by supplying year, month, ... as arguments. Hour, minute, second are optional and supposed to be zero if omitted.
+
 
 
 
