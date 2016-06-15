@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "a small library that formats dates in Japanese",
   "main": "kanjidate.js",
+  "repository": {
+  	"type": "git",
+  	"url": "https://github.com/hangilc/kanjidate.git"
+  },
   "scripts": {
     "test": "mocha --reporter spec"
   },
