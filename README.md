@@ -237,10 +237,51 @@ Following is the list of part specifier:
 * ``G`` : gengou
 * ``N`` : nen
 * ``M`` : month
+* ``D`` : day
 * ``h`` : hour
 * ``m`` : minute
 * ``s`` : second
 * ``a`` : AM/PM
+* ``Y`` : Gregorian year
+
+### Formatting gengou
+
+```js
+format("{G}", 2016, 6, 15) // -> "平成"
+format("{G:1}", 2016, 6, 15) // -> "平"
+format("{G:2}", 2016, 6, 15) // -> "平成"
+format("{G:a}", 2016, 6, 15) // -> "H"
+format("{G:alpha}", 2016, 6, 15) // -> "Heisei"
+```
+
+Without any option, gengou part is output as two Kanji characters. Available options are as follows.
+
+* ``1`` : gengou is output as single Kanji character, such as "平", "昭", "大" or "明"
+* ``2`` : gengou is output as two Kanji characters, such as "平成", "昭和", "大正" or "明治". This is the default.
+* ``a`` : gengou is output as single uppercase alphabet, such as "H", "S", "T", or "M".
+* ``alpha`` : gengou is output as alphabet word, such "Heisei", "Shouwa", "Taishou", or "Meiji".
+
+### Formatting nen
+
+```js
+format("{N}", 2016, 6, 15) // -> "6"
+format("{N:1}", 2016, 6, 15) // -> "6"
+format("{N:2}", 2016, 6, 15) // -> "06"
+format("{N:z}", 2016, 6, 15) // -> "６"
+format("{N:z,2}", 2016, 6, 15) // -> "０６"
+format("{N:g}", 1989, 1, 8) // -> "元"
+format("{N:g}", 2016, 6, 15) // -> "6"
+format("{N:g,2,z}", 2016, 6, 15) // -> "０６"
+```
+
+Without any option, nen part is output as number. Available options are as follows.
+
+* ``1`` : nen is output as number. This is the default.
+* ``2`` : nen is output as two characters, padding "0" or "０" (zenkaku) as needed. For example, "06".
+* ``z`` : nen is output as zenkaku characters (wider characters used in Japane). For example, "６". If used with ``2`` option, this option changes the padding character from "0" to "０" (zenkaku zero).
+* ``g`` : if nen is identical to one, output becomes "元" (Kanji character representing the first nen). Otherwise, this option has no effect.
+
+Options can be specified in any order. If ``1`` and ``2`` options are used multiple times, the last one (the right most one) is effective.
 
 ### toKanji(year, month, day)
 
