@@ -22,6 +22,8 @@ var kanjidate = require("kanjidate");
 <script src="/path/to/kanjidate.js"></script>
 ```
 
+After "kanjidate.js" has been loaded, global variable ``kanjidate`` is available.
+
 ## Examples
 
 ### Default formatting
@@ -346,6 +348,14 @@ format("{a}", 2016, 6, 5, 19, 2, 3) // -> "pm"
 format("{am/pm}", 2016, 6, 5, 9, 2, 3) // -> "AM"
 format("{a}", 2016, 6, 5, 19, 2, 3) // -> "PM" 
 ```
+
+### Formatting Gregorian year
+
+```js
+format("{Y}", 2016, 6, 14) // -> "2016"
+```
+
+With "{Y}", Gregorian year is output as it is. Note: even in this case, month and day arguments are required.
 
 ## Predfined formats
 
