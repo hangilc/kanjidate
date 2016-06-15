@@ -249,7 +249,7 @@ Following is the list of part specifier:
 ```js
 format("{G}", 2016, 6, 15) // -> "平成"
 format("{G:1}", 2016, 6, 15) // -> "平"
-format("{G:2}", 2016, 6, 15) // -> "平成"
+format("{G:2}", 2016, 6, 15) // -> "平成" (default)
 format("{G:a}", 2016, 6, 15) // -> "H"
 format("{G:alpha}", 2016, 6, 15) // -> "Heisei"
 ```
@@ -264,14 +264,14 @@ Without any option, gengou part is output as two Kanji characters. Available opt
 ### Formatting nen
 
 ```js
-format("{N}", 2016, 6, 15) // -> "6"
-format("{N:1}", 2016, 6, 15) // -> "6"
-format("{N:2}", 2016, 6, 15) // -> "06"
-format("{N:z}", 2016, 6, 15) // -> "６"
-format("{N:z,2}", 2016, 6, 15) // -> "０６"
+format("{N}", 1996, 2, 3) // -> "8" (Gregorian year 1996 corresponds to Heisei 8 nen)
+format("{N:1}", 1996, 2, 3) // -> "8" (default)
+format("{N:2}", 1996, 2, 3) // -> "08" (2 digits)
+format("{N:z}", 1996, 2, 3) // -> "８" (zenkaku)
+format("{N:z,2}", 1996, 2, 3) // -> "０８"
 format("{N:g}", 1989, 1, 8) // -> "元"
-format("{N:g}", 2016, 6, 15) // -> "6"
-format("{N:g,2,z}", 2016, 6, 15) // -> "０６"
+format("{N:g}", 1996, 2, 3) // -> "8"
+format("{N:g,2,z}", 1996, 2, 3) // -> "０８"
 ```
 
 Without any option, nen part is output as number. Available options are as follows.
@@ -282,6 +282,71 @@ Without any option, nen part is output as number. Available options are as follo
 * ``g`` : if nen is identical to one, output becomes "元" (Kanji character representing the first nen). Otherwise, this option has no effect.
 
 Options can be specified in any order. If ``1`` and ``2`` options are used multiple times, the last one (the right most one) is effective.
+
+### Formatting month
+
+```js
+format("{M}", 2016, 6, 15) // -> "6"
+format("{M:1}", 2016, 6, 15) // -> "6" (default)
+format("{M:2}", 2016, 6, 15) // -> "06" (2 digits)
+format("{M:z}", 2016, 6, 15) // -> "６" (zenkaku)
+format("{M:z,2}", 2016, 6, 15) // -> "０６" (zekaku 2 digits)
+```
+
+### Formatting day
+
+```js
+format("{D}", 2016, 6, 5) // -> "5"
+format("{D:1}", 2016, 6, 5) // -> "5" (default)
+format("{D:2}", 2016, 6, 5) // -> "05" (2 digits)
+format("{D:z}", 2016, 6, 5) // -> "５" (zenkaku)
+format("{D:z,2}", 2016, 6, 5) // -> "０５" (zekaku 2 digits)
+```
+
+### Formatting hour
+
+```js
+format("{h}", 2016, 6, 5, 9, 2, 3) // -> "9"
+format("{h:12}", 2016, 6, 5, 19, 2, 3) // -> 7 (12-hour am/pm format)
+format("{h:1}", 2016, 6, 5, 9, 2, 3) // -> "9" (default)
+format("{h:2}", 2016, 6, 5, 9, 2, 3) // -> "09" (2 digits)
+format("{h:z}", 2016, 6, 5, 9, 2, 3) // -> "９" (zenkaku)
+format("{h:z, 2}", 2016, 6, 5, 9, 2, 3) // -> "０９" (zenkaku 2 digits)
+```
+
+Option ``12`` specifies the output to be 12-hour am/pm format; in other words, hour is divided by 12 and the remainder is output. 
+
+### Formatting minute
+
+```js
+format("{m}", 2016, 6, 5, 9, 2, 3) // -> "2"
+format("{m:1}", 2016, 6, 5, 9, 2, 3) // -> "2" (default)
+format("{m:2}", 2016, 6, 5, 9, 2, 3) // -> "02" (2 digits)
+format("{m:z}", 2016, 6, 5, 9, 2, 3) // -> "２" (zenkaku)
+format("{m:z,2}", 2016, 6, 5, 9, 2, 3) // -> "０２" (zekaku 2 digits)
+```
+
+### Formatting second
+
+```js
+format("{s}", 2016, 6, 5, 9, 2, 3) // -> "3"
+format("{s:1}", 2016, 6, 5, 9, 2, 3) // -> "3" (default)
+format("{s:2}", 2016, 6, 5, 9, 2, 3) // -> "03" (2 digits)
+format("{s:z}", 2016, 6, 5, 9, 2, 3) // -> "３" (zenkaku)
+format("{s:z,2}", 2016, 6, 5, 9, 2, 3) // -> "０３" (zekaku 2 digits)
+```
+
+### Formatting am/pm
+
+```js
+format("{a}", 2016, 6, 5, 9, 2, 3) // -> "午前" (__am__ in Japanese)
+format("{a}", 2016, 6, 5, 19, 2, 3) // -> "午後" (__pm__ in Japanese)
+format("{am/pm}", 2016, 6, 5, 9, 2, 3) // -> "am"
+format("{a}", 2016, 6, 5, 19, 2, 3) // -> "pm" 
+format("{am/pm}", 2016, 6, 5, 9, 2, 3) // -> "AM"
+format("{a}", 2016, 6, 5, 19, 2, 3) // -> "PM" 
+```
+
 
 ### toKanji(year, month, day)
 
