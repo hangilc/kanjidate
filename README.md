@@ -1,6 +1,6 @@
 # kanjidate
 
-A small Javascript library that 1) formats date in Japanese and 2) converts dates between Gregorian calendar and Japanese calendar.
+A small JavaScript library that 1) formats date in Japanese and 2) converts dates between Gregorian calendar and Japanese calendar.
 
 ## Install
 
@@ -10,7 +10,7 @@ A small Javascript library that 1) formats date in Japanese and 2) converts date
 npm install kanjidate
 ```
 
-in Javascript source
+in JavaScript source
 
 ```js
 var kanjidate = require("kanjidate");
@@ -204,7 +204,7 @@ format("2016-06-13 22:53:26") // -> "平成28年6月13日（月）"
 
 If called with one argument, `format` interprets the argument as date and formats the date with the default format. Acceptable arguments are as follows:
 
-* a Javascript Date : its local time is used to construct the formatted string. In other words, Date class methods such as `getFullYear`, `getMonth`, ... are used to get the year, month, and other values.
+* a JavaScript Date : its local time is used to construct the formatted string. In other words, Date class methods such as `getFullYear`, `getMonth`, ... are used to get the year, month, and other values.
 * a string of the form "YYYY-MM-DD" or "YYYY-MM-DD hh:mm:ss" : values of year, month, ... are extracted from the string.
 
 ```js
@@ -217,7 +217,7 @@ format("{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分{s}秒", 2016, 6, 15, 1
 
 If called with more than one arguments, `format` uses the first argument as the format string and the remaining arguments to identify the date. Details of format string are described in the following sections. In essence, various elements of the calendar system is indicated between curly braces, and other parts are output as it is. 
 
-When there are only two arguments, the second argument is interpreted as the date to be formatted. It can be a Javascript Date object or a string. These arguments are handled as in the case when `format` is called with single argument.
+When there are only two arguments, the second argument is interpreted as the date to be formatted. It can be a JavaScript Date object or a string. These arguments are handled as in the case when `format` is called with single argument.
 
 The date can be specified by supplying year, month, ... as arguments. Hour, minute, second are optional and supposed to be zero if omitted.
 
