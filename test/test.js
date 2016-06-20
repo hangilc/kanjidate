@@ -293,10 +293,29 @@ describe("predefined formatting", function(){
 	it("format11", function(){
 		expect(kanjidate.format(kanjidate.f11, 2016, 6, 12, 14, 26, 8)).equal("平成２８年６月１２日");
 	});
-	it("format11", function(){
+	it("format12", function(){
 		expect(kanjidate.format(kanjidate.f12, 2016, 6, 12, 14, 26, 8)).equal("平成２８年０６月１２日");
 	});
-})
+});
+
+describe("format to SqlDate, SqlDateTime", function(){
+	it("format13", function(){
+		expect(kanjidate.format(kanjidate.f13, "2016-06-20 23:24:12"))
+			.equal("2016-06-20");
+	})
+	it("fSqlDate", function(){
+		expect(kanjidate.format(kanjidate.fSqlDate, "2016-06-20 23:24:12"))
+			.equal("2016-06-20");
+	})
+	it("format14", function(){
+		expect(kanjidate.format(kanjidate.f14, "2016-06-20 23:24:12"))
+			.equal("2016-06-20 23:24:12");
+	})
+	it("fSqlDateTime", function(){
+		expect(kanjidate.format(kanjidate.fSqlDateTime, "2016-06-20 23:24:12"))
+			.equal("2016-06-20 23:24:12");
+	})
+});
 
 
 

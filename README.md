@@ -49,6 +49,10 @@ kanjidate.format(kanjidate.f9, 2016, 6, 12, 14, 26, 8) // -> "平成28年6月12�
 kanjidate.format(kanjidate.f10, 2016, 6, 12, 14, 26, 8) // -> "平成28年06月12日（日） 午後02時26分"
 kanjidate.format(kanjidate.f11, 2016, 6, 12) // -> "平成２８年６月１２日"
 kanjidate.format(kanjidate.f12, 2016, 6, 12) // -> "平成２８年０６月１２日"
+kanjidate.format(kanjidate.f13, "2016-06-20 23:24:12") // -> "2016-06-20"
+kanjidate.format(kanjidate.f14, "2016-06-20 23:24:12") // -> "2016-06-20 23:24:12"
+kanjidate.format(kanjidate.fSqlDate, "2016-06-20 23:24:12") // -> "2016-06-20"
+kanjidate.format(kanjidate.fSqlDateTime, "2016-06-20 23:24:12") // -> "2016-06-20 23:24:12"
 ```
 
 ### Explicit formatting

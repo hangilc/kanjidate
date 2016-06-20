@@ -206,6 +206,8 @@ var format9 = "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分";
 var format10 = "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分";
 var format11 = "{G}{N:z}年{M:z}月{D:z}日";
 var format12 = "{G}{N:z,2}年{M:z,2}月{D:z,2}日";
+var format13 = "{Y}-{M:2}-{D:2}";
+var format14 = "{Y}-{M:2}-{D:2} {h:2}:{m:2}:{s:2}";
 
 exports.f1 = format1;
 exports.f2 = format2;
@@ -219,6 +221,10 @@ exports.f9 = format9;
 exports.f10 = format10;
 exports.f11 = format11;
 exports.f12 = format12;
+exports.f13 = format13;
+exports.f14 = format14;
+exports.fSqlDate = format13;
+exports.fSqlDateTime = format14;
 
 function gengouPart(kdate, opts){
 	var style = "2";
