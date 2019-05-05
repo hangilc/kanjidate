@@ -3,6 +3,10 @@ var kanjidate = kanjidate || require("../kanjidate.js");
 
 describe("convert to gengou", function(){
 	it("calculates gengou from year, month and day", function(){
+		expect(kanjidate.toGengou(2019, 5, 1)).to.eql({gengou: "令和", nen: 1})
+	});
+	it("calculates gengou from year, month and day", function(){
+		expect(kanjidate.toGengou(2019, 4, 30)).to.eql({gengou: "平成", nen: 31})
 		expect(kanjidate.toGengou(2016, 6, 1)).to.eql({gengou: "平成", nen: 28})
 	});
 	it("calculate gengou from year, month and day", function(){
@@ -21,6 +25,10 @@ describe("convert to gengou", function(){
 
 describe("convert from gengou", function(){
 	it("calculate year from gengou and nen", function(){
+		expect(kanjidate.fromGengou("令和", 1)).equal(2019);
+	});
+	it("calculate year from gengou and nen", function(){
+		expect(kanjidate.fromGengou("平成", 30)).equal(2018);
 		expect(kanjidate.fromGengou("平成", 28)).equal(2016);
 	});
 	it("calculate year from gengou and nen", function(){

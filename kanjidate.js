@@ -28,6 +28,7 @@ function ge(year1, month1, day1, year2, month2, day2){
 
 function gengouToAlpha(gengou){
 	switch(gengou){
+		case "令和": return "Reiwa";
 		case "平成": return "Heisei";
 		case "昭和": return "Shouwa";
 		case "大正": return "Taishou";
@@ -79,6 +80,9 @@ function removeOpt(opts, what){
 }
 
 function toGengou(year, month, day){
+	if( ge(year, month, day, 2019, 5, 1) ){
+		return { gengou:"令和", nen:year - 2018 };
+	}
 	if( ge(year, month, day, 1989, 1, 8) ){
 		return { gengou:"平成", nen:year - 1988 };
 	}
@@ -102,6 +106,8 @@ function fromGengou(gengou, nen){
     	throw new Error("invalid nen: " + nen);
     }
     switch (gengou) {
+        case "令和":
+            return 2018 + nen;
         case "平成":
             return 1988 + nen;
         case "昭和":
