@@ -92,7 +92,7 @@ function toGengou(year, month, day){
 	if( ge(year, month, day, 1912, 7, 30) ){
 		return { gengou:"大正", nen:year - 1911 };
 	}
-	if( ge(year, month, day, 1873, 1, 1) ){
+	if( ge(year, month, day, 1868, 10, 23) ){
 		return { gengou: "明治", nen: year - 1867 };
 	}
 	return { gengou: "西暦", nen: year };

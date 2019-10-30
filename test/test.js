@@ -17,6 +17,7 @@ describe("convert to gengou", function(){
 	});
 	it("calculate gengou from year, month and day", function(){
 		expect(kanjidate.toGengou(1879, 9, 12)).to.eql({gengou: "明治", nen: 12})
+		expect(kanjidate.toGengou(1868, 10, 25)).to.eql({gengou: "明治", nen: 1})
 	});
 	it("calculate gengou from year, month and day", function(){
 		expect(kanjidate.toGengou(1857, 9, 12)).to.eql({gengou: "西暦", nen: 1857})
