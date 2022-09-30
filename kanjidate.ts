@@ -41,6 +41,8 @@ namespace Impl {
       return year - this.nenStartYear + 1;
     }
   }
+
+  class Gregorian { }
   
   const Meiji: Gengou = 
     new Gengou("明治", "Meiji", new Kdate(1873, 1, 1), 1868);
@@ -84,14 +86,14 @@ namespace Impl {
     return nen - 1 + gengou.nenStartYear;
   }
 
-  export function stringToGengou(s: string): Gengou | null {
+  export function stringToGengou(s: string): Gengou | Gregorian {
     for(let i=0;i<GengouList.length;i++){
       const g = GengouList[i];
       if( g.kanji === s ){
         return g;
       }
     }
-    return null;
+    return new Gregorian();
   }
   
   var youbi = ["日", "月", "火", "水", "木", "金", "土"];
@@ -99,7 +101,94 @@ namespace Impl {
   export function toYoubi(dayOfWeek: number) {
     return youbi[dayOfWeek % 7];
   }
-  
+
+  class KanjiDate{
+    public year: number;
+    public month: number;
+    public day: number;
+    public hour: number;
+    public minute: number;
+    public second: number;
+    public msec: number;
+    public dayOfWeek: number;
+    public gengou: Gengou | Gregorian;
+    public nen: number;
+    public youbi: string;
+
+    constructor(date: Date) {
+      this.year = date.getFullYear();
+      this.month = date.getMonth()+1;
+      this.day = date.getDate();
+      this.hour = date.getHours();
+      this.minute = date.getMinutes();
+      this.second = date.getSeconds();
+      this.msec = date.getMilliseconds();
+      this.dayOfWeek = date.getDay();
+      var g = toGengou(this.year, this.month, this.day);
+      this.gengou = g.gengou;
+      this.nen = g.nen;
+      this.youbi = youbi[this.dayOfWeek];
+    }
+
+    static of(year: number, month: number, day: number, 
+      hour: number = 0, minute: number = 0, second: number = 0, msecond: number = 0): KanjiDate {
+        var date = new Date(year, month-1, day, hour, minute, second, msecond);
+        return new KanjiDate(date);
+      }
+
+    static fromString(str: string){
+        let m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if( m ){
+          return KanjiDate.of(+m[1], +m[2], +m[3]);
+        }
+        m = str.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/);
+        if( m ){
+          return KanjiDate.of(+m[1], +m[2], +m[3], +m[4], +m[5], +m[6]);
+        }
+        throw new Error("cannot convert to KanjiDate");
+      }
+  }
+
+  class FormatToken {
+    constructor(
+      public part: string,
+      public opts: Array<string> = []
+    ) {}
+
+    static parse(src: string): FormatToken | null | Error {
+      if( src === "" ) {
+        return null;
+      } else if( src[0] === "{" ) {
+
+      }
+    }
+  }
+
+  function parseFormatString(fmtStr: string): Array<FormatToken | string> {
+    const items: Array<string> = fmtStr.split(/(\{[^}]+)\}/);
+    return items.map(item => {
+      if( item === "" ){
+        return item;
+      } else if( item[0] === "{" ) {
+        const iColon = item.indexOf(":");
+        if( iColon >= 0 ) {
+          const part = item.substring(1, iColon);
+          const optStr = item.substring(iColon+1).trim();
+          if( optStr === "" ){
+            return new FormatToken(part);
+          } else if( optStr.indexOf(",") >= 0 ){
+            return new FormatToken(part, optStr.split(/\s*,\s*/));
+          } else {
+            return new FormatToken(part, [optStr])
+          }
+        } else {
+          return new FormatToken(item.substring(1));
+        }
+      } else {
+        return item;
+      }
+    });
+  }
 }
 
 class Wareki {
@@ -132,6 +221,24 @@ export function fromGengou(gengou: string, nen: number): number {
 export function toYoubi(dayOfWeek: number): string {
   return Impl.toYoubi(dayOfWeek);
 }
+
+export const f1 = "{G}{N}年{M}月{D}日（{W}）";
+export const f2 = "{G}{N}年{M}月{D}日";
+export const f3 = "{G:a}{N}.{M}.{D}";
+export const f4 = "{G}{N:2}年{M:2}月{D:2}日（{W}）";
+export const f5 = "{G}{N:2}年{M:2}月{D:2}日";
+export const f6 = "{G:a}{N:2}.{M:2}.{D:2}";
+export const f7 = "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分{s}秒";
+export const f8 = "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分{s:2}秒";
+export const f9 = "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分";
+export const f10 = "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分";
+export const f11 = "{G}{N:z}年{M:z}月{D:z}日";
+export const f12 = "{G}{N:z,2}年{M:z,2}月{D:z,2}日";
+export const f13 = "{Y}-{M:2}-{D:2}";
+export const f14 = "{Y}-{M:2}-{D:2} {h:2}:{m:2}:{s:2}";
+export const fSqlDate = f13;
+export const fSqlDateTime = f14;
+
 
 // function gengouToAlpha(gengou: string): string {
 //   switch (gengou) {
