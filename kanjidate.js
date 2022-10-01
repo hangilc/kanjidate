@@ -35,6 +35,9 @@ var Impl;
             this.start = start;
             this.nenStartYear = nenStartYear;
         }
+        getLabel() {
+            return this.kanji;
+        }
         isMyDate(a) {
             return Kdate.ge(a, this.start);
         }
@@ -44,6 +47,9 @@ var Impl;
     }
     Impl.Gengou = Gengou;
     class Gregorian {
+        constructor() {
+            this.identity = "";
+        }
     }
     Impl.Gregorian = Gregorian;
     const Meiji = new Gengou("明治", "Meiji", new Kdate(1873, 1, 1), 1868);
@@ -59,11 +65,23 @@ var Impl;
             this.gengou = gengou;
             this.nen = nen;
         }
+        getLabel() {
+            return this.gengou.kanji;
+        }
+        getNen() {
+            return this.nen;
+        }
     }
     Impl.Wareki = Wareki;
     class Seireki {
         constructor(year) {
             this.year = year;
+        }
+        getLabel() {
+            return "西暦";
+        }
+        getNen() {
+            return this.year;
         }
     }
     Impl.Seireki = Seireki;
@@ -116,9 +134,9 @@ var Impl;
             this.msec = date.getMilliseconds();
             this.dayOfWeek = date.getDay();
             this.dayOfWeekAlpha = dayOfWeeks[this.dayOfWeek];
-            var g = toGengou(this.year, this.month, this.day);
-            this.gengou = g.gengou;
-            this.nen = g.nen;
+            this.wareki = toWareki(new Kdate(this.year, this.month, this.day));
+            this.gengou = this.wareki.getLabel();
+            this.nen = this.wareki.getNen();
             this.youbi = youbi[this.dayOfWeek];
         }
         static of(year, month, day, hour = 0, minute = 0, second = 0, msecond = 0) {
@@ -241,23 +259,22 @@ var Impl;
     }
     const gengouProcessor = new class {
         process(data, opts) {
-            const g = data.gengou;
             if (extractOpt("1", opts)) {
-                return g.kanji[0];
+                return data.gengou[0];
             }
             else if (extractOpt("2", opts)) {
-                return g.kanji;
+                return data.gengou;
             }
             else if (extractOpt("a", opts)) {
-                return g.alpha[0];
+                const wareki = data.wareki;
+                return wareki.gengou.alpha[0];
             }
             else if (extractOpt("alpha", opts)) {
-                return g.alpha;
+                const wareki = data.wareki;
+                return wareki.gengou.alpha;
             }
             else {
-                console.log("gengou", g, typeof g);
-                console.log("kanji", g.kanji);
-                return g.kanji;
+                return data.gengou;
             }
         }
     };
