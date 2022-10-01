@@ -83,17 +83,24 @@ namespace Impl {
   }
 
   export function fromGengou(gengou: Gengou, nen: number): number {
+    if( nen < 1 ){
+      throw new Error(`Inalid nen: ${nen}`);
+    }
     return nen - 1 + gengou.nenStartYear;
   }
 
-  export function stringToGengou(s: string): Gengou | Gregorian {
+  export function stringToGengou(s: string): Gengou | Gregorian | null {
     for(let i=0;i<GengouList.length;i++){
       const g = GengouList[i];
       if( g.kanji === s ){
         return g;
       }
     }
-    return new Gregorian();
+    if( s === "西暦" ){
+      return new Gregorian();
+    } else {
+      return null;
+    }
   }
   
   const youbi = ["日", "月", "火", "水", "木", "金", "土"];
@@ -407,7 +414,7 @@ namespace Impl {
     });
   }
 
-  function format(fmtStr: string, data: KanjiDate): string {
+  export function format(fmtStr: string, data: KanjiDate): string {
     return parseFormatString(fmtStr).map(item => {
       if( item instanceof FormatToken ){
         const proc = processorMap.get(item.part);
@@ -450,8 +457,10 @@ export function fromGengou(gengou: string, nen: number): number {
   const g = Impl.stringToGengou(gengou);
   if( g instanceof Impl.Gengou ){
     return Impl.fromGengou(g, nen);
-  } else {
+  } else if( g instanceof Impl.Gregorian ){
     return nen;
+  } else {
+    throw new Error(`invalid gengou: ${gengou}`);
   }
 }
 
@@ -476,6 +485,16 @@ export const f14 = "{Y}-{M:2}-{D:2} {h:2}:{m:2}:{s:2}";
 export const fSqlDate = f13;
 export const fSqlDateTime = f14;
 
+export function format(fmtStr: string = "", yearOrStr: number | string = "", month: number, day: number, 
+    hour: number, minute: number, second: number): string {
+      let d: Impl.KanjiDate;
+      if( typeof yearOrStr === "number" ){
+        d = Impl.KanjiDate.of(yearOrStr, month, day, hour, minute, second);
+      } else {
+        d = Impl.KanjiDate.fromString(yearOrStr);
+      }
+      return Impl.format(fmtStr, d);
+  }
 
 // // function gengouToAlpha(gengou: string): string {
 // //   switch (gengou) {

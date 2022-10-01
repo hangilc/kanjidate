@@ -8,6 +8,7 @@
     "url": "https://github.com/hangilc/kanjidate.git"
   },
   "scripts": {
+    "build": "tsc",
     "test": "mocha --reporter spec",
     "tsc": "tsc"
   },
