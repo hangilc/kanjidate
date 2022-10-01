@@ -42,7 +42,9 @@ namespace Impl {
     }
   }
 
-  export class Gregorian { }
+  export class Gregorian {
+    private identity: string = "";
+  }
   
   const Meiji: Gengou = 
     new Gengou("明治", "Meiji", new Kdate(1873, 1, 1), 1868);
@@ -67,6 +69,7 @@ namespace Impl {
   }
 
   export class Seireki {
+    kanji: string = "西暦";
     constructor(
       public year: number
     ) {}
@@ -111,18 +114,19 @@ namespace Impl {
   }
 
   export class KanjiDate{
-    public year: number;
-    public month: number;
-    public day: number;
-    public hour: number;
-    public minute: number;
-    public second: number;
-    public msec: number;
-    public dayOfWeek: number;
-    public dayOfWeekAlpha: string;
-    public gengou: Gengou | Gregorian;
-    public nen: number;
-    public youbi: string;
+    year: number;
+    month: number;
+    day: number;
+    hour: number;
+    minute: number;
+    second: number;
+    msec: number;
+    dayOfWeek: number;
+    dayOfWeekAlpha: string;
+    wareki: Wareki | Seireki;
+    gengou: string;
+    nen: number;
+    youbi: string;
 
     constructor(date: Date) {
       this.year = date.getFullYear();
@@ -134,9 +138,14 @@ namespace Impl {
       this.msec = date.getMilliseconds();
       this.dayOfWeek = date.getDay();
       this.dayOfWeekAlpha = dayOfWeeks[this.dayOfWeek];
-      var g = toGengou(this.year, this.month, this.day);
-      this.gengou = g.gengou;
-      this.nen = g.nen;
+      this.wareki = toWareki(new Kdate(this.year, this.month, this.day));
+      if( this.wareki instanceof Wareki ){
+        this.gengou = this.wareki.gengou.kanji;
+        this.nen = this.wareki.nen;
+      } else {
+        this.gengou = this.wareki.kanji;
+        this.nen = this.wareki.year;
+      }
       this.youbi = youbi[this.dayOfWeek];
     }
 
@@ -272,16 +281,18 @@ namespace Impl {
 
   const gengouProcessor: IProcessor = new class implements IProcessor {
     process(data: KanjiDate, opts: Array<string>): string {
-      const g = data.gengou as Gengou;
       if( extractOpt("1", opts) ){
-        return g.kanji[0];
+        return data.gengou[0];
       } else if( extractOpt("2", opts) ){
-        return g.kanji;
+        return data.gengou;
       } else if( extractOpt("a", opts) ){
-        return g.alpha[0];
+        const wareki: Impl.Wareki = data.wareki as Wareki;
+        return wareki.gengou.alpha[0];
       } else if( extractOpt("alpha", opts) ){
         return g.alpha;
       } else {
+        console.log("gengou", g, typeof g);
+        console.log("kanji", g.kanji);
         return g.kanji;
       }
     }
@@ -485,12 +496,25 @@ export const f14 = "{Y}-{M:2}-{D:2} {h:2}:{m:2}:{s:2}";
 export const fSqlDate = f13;
 export const fSqlDateTime = f14;
 
-export function format(fmtStr: string = "", yearOrStr: number | string = "", 
-    month: number, day: number, 
-    hour: number, minute: number, second: number): string {
+export function format(fmtStr: string | undefined = undefined, 
+    yearOrStr: number | string | undefined = undefined, 
+    month: number | undefined = undefined, 
+    day: number | undefined = undefined, 
+    hour: number = 0, minute: number = 0, second: number = 0): string {
       let d: Impl.KanjiDate;
-      if( typeof yearOrStr === "number" ){
-        d = Impl.KanjiDate.of(yearOrStr, month, day, hour, minute, second);
+      if( fmtStr === undefined ){
+        fmtStr = f1
+        {
+          const kd = new Impl.KanjiDate(new Date());
+          console.log(kd);
+          throw new Error("done");
+        }
+      }
+      if( yearOrStr === undefined ){
+        d = new Impl.KanjiDate(new Date());
+      } else if( typeof yearOrStr === "number" ){
+        d = Impl.KanjiDate.of(yearOrStr, month as number, 
+          day as number, hour, minute, second);
       } else {
         d = Impl.KanjiDate.fromString(yearOrStr);
       }

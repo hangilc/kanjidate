@@ -255,6 +255,8 @@ var Impl;
                 return g.alpha;
             }
             else {
+                console.log("gengou", g, typeof g);
+                console.log("kanji", g.kanji);
                 return g.kanji;
             }
         }
@@ -468,9 +470,20 @@ exports.f13 = "{Y}-{M:2}-{D:2}";
 exports.f14 = "{Y}-{M:2}-{D:2} {h:2}:{m:2}:{s:2}";
 exports.fSqlDate = exports.f13;
 exports.fSqlDateTime = exports.f14;
-function format(fmtStr, yearOrStr, month, day, hour, minute, second) {
+function format(fmtStr = undefined, yearOrStr = undefined, month = undefined, day = undefined, hour = 0, minute = 0, second = 0) {
     let d;
-    if (typeof yearOrStr === "number") {
+    if (fmtStr === undefined) {
+        fmtStr = exports.f1;
+        {
+            const kd = new Impl.KanjiDate(new Date());
+            console.log(kd);
+            throw new Error("done");
+        }
+    }
+    if (yearOrStr === undefined) {
+        d = new Impl.KanjiDate(new Date());
+    }
+    else if (typeof yearOrStr === "number") {
         d = Impl.KanjiDate.of(yearOrStr, month, day, hour, minute, second);
     }
     else {
