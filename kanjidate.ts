@@ -485,7 +485,8 @@ export const f14 = "{Y}-{M:2}-{D:2} {h:2}:{m:2}:{s:2}";
 export const fSqlDate = f13;
 export const fSqlDateTime = f14;
 
-export function format(fmtStr: string = "", yearOrStr: number | string = "", month: number, day: number, 
+export function format(fmtStr: string = "", yearOrStr: number | string = "", 
+    month: number, day: number, 
     hour: number, minute: number, second: number): string {
       let d: Impl.KanjiDate;
       if( typeof yearOrStr === "number" ){
