@@ -154,13 +154,38 @@ namespace Impl {
       public part: string,
       public opts: Array<string> = []
     ) {}
+  }
 
-    static parse(src: string): FormatToken | null | Error {
-      if( src === "" ) {
-        return null;
-      } else if( src[0] === "{" ) {
+  interface IProcessor {
+    process(date: Kdate, opts: Array<string>): string;
+  }
 
+  const gengouProcessor: IProcessor = new class implements IProcessor {
+    process(data: KanjiDate, opts: Array<string>): string {
+      const g = data.gengou as Gengou;
+      if( opts.length === 0 ){
+        return g.kanji;
+      } else if( opts.length === 1 ){
+        switch(opts[0]) {
+          case "1": return g.kanji[0];
+          case "2": return g.kanji;
+          case "a": return g.alpha[0];
+          case "alpha": return g.alpha;
+          default: throw new Error(`Invalid option to {G}: ${opts[0]}`);
+        }
+      } else {
+        throw new Error("{G} formatter accepts at most 1 option.");
       }
+    }
+  };
+
+  const nenProcessor: IProcessor = new class implements IProcessor {
+    process(data: KanjiDate, opts: Array<string>): string {
+      let s = data.nen.toString();
+      opts.forEach(opt => {
+
+      });
+      return s;
     }
   }
 
