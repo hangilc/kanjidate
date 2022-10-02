@@ -76,14 +76,14 @@ describe("convert day of week to youbi", function(){
 })
 
 describe("format date with default format", function(){
-	it("format today with default format", function(){
+	it("format today with default format (1)", function(){
 		// may fail if tested around 00:00:00
 		var d = new Date();
 		var g = kanjidate.toGengou(d.getFullYear(), d.getMonth()+1, d.getDate());
 		var s = g.gengou + g.nen + "年" + (d.getMonth()+1) + "月" + d.getDate() + "日" + "（" + kanjidate.toYoubi(d.getDay()) + "）";
 		expect(kanjidate.format()).equal(s);
 	});
-	it("format date with default format", function(){
+	it("format date with default format (2)", function(){
 		var d = new Date(2016, 6-1, 14);
 		expect(kanjidate.format(d)).equal("平成28年6月14日（火）");
 	});
@@ -96,13 +96,13 @@ describe("format date with default format", function(){
 });
 
 describe("format date with format string", function(){
-	it("format Date", function(){
+	it("format Date (1)", function(){
 		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}）", new Date(2016, 6-1, 14))).equal("平成28年6月14日（火）");
 	})
-	it("format Date", function(){
+	it("format Date (2)", function(){
 		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}）", "2016-06-14")).equal("平成28年6月14日（火）");
 	})
-	it("format Date", function(){
+	it("format Date (3)", function(){
 		expect(kanjidate.format("{G}{N}年{M}月{D}日（{W}）", 2016, 6, 14)).equal("平成28年6月14日（火）");
 	})
 });

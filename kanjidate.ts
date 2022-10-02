@@ -173,9 +173,9 @@ namespace Impl {
       hour: number = 0, minute: number = 0, second: number = 0, msecond: number = 0): KanjiDate {
         var date = new Date(year, month-1, day, hour, minute, second, msecond);
         return new KanjiDate(date);
-      }
+    }
 
-    static fromString(str: string){
+    static tryFromString(str: string): KanjiDate | null {
         let m = str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
         if( m ){
           return KanjiDate.of(+m[1], +m[2], +m[3]);
@@ -184,8 +184,17 @@ namespace Impl {
         if( m ){
           return KanjiDate.of(+m[1], +m[2], +m[3], +m[4], +m[5], +m[6]);
         }
+        return null;
+    }
+
+    static fromString(str: string): KanjiDate {
+      const d = KanjiDate.tryFromString(str);
+      if( d === null ){
         throw new Error("cannot convert to KanjiDate");
+      } else {
+        return d;
       }
+    }
   }
 
   class FormatToken {
@@ -406,12 +415,19 @@ namespace Impl {
     }
   }
 
+  const yearProcessor: IProcessor = new class implements IProcessor {
+    process(data: KanjiDate, opts: Array<string>): string {
+      return data.year.toString();
+    }
+  }
+
   const processorMap: Map<string, IProcessor> = new Map([
     ["G", gengouProcessor],
     ["N", nenProcessor],
     ["M", monthProcessor],
     ["D", dayProcessor],
     ["W", dowProcessor],
+    ["Y", yearProcessor],
     ["h", hourProcessor],
     ["m", minuteProcessor],
     ["s", secondProcessor],
@@ -515,22 +531,90 @@ export const f14 = "{Y}-{M:2}-{D:2} {h:2}:{m:2}:{s:2}";
 export const fSqlDate = f13;
 export const fSqlDateTime = f14;
 
-export function format(fmtStr: string | undefined = undefined, 
-    yearOrStr: number | string | undefined = undefined, 
-    month: number | undefined = undefined, 
-    day: number | undefined = undefined, 
-    hour: number = 0, minute: number = 0, second: number = 0): string {
-      let d: Impl.KanjiDate;
-      if( fmtStr === undefined ){
-        fmtStr = f1
-      }
-      if( yearOrStr === undefined ){
-        d = new Impl.KanjiDate(new Date());
-      } else if( typeof yearOrStr === "number" ){
-        d = Impl.KanjiDate.of(yearOrStr, month as number, 
-          day as number, hour, minute, second);
+const msgInvalidArg = "Invalid arguments to kanjidate.format";
+
+export function format(): string;
+export function format(arg: string | Date): string;
+export function format(fmt: string, date: Date): string;
+export function format(fmt: string, date: string): string;
+export function format(fmt: string, year: number, month: number, day: number,
+  hour?: number, minute?: number, second?: number): string;
+export function format(...args: any[]): string {
+  switch(args.length){
+    case 0: return Impl.format(f1, new Impl.KanjiDate(new Date()));
+    case 1: return format1(args[0]);
+    case 2: return format2(args[0], args[1]);
+    case 4: return formatN(args[0], args[1], args[2], args[3]);
+    case 5: return formatN(args[0], args[1], args[2], args[3], args[4]);
+    case 6: return formatN(args[0], args[1], args[2], args[3], args[4], args[5]);
+    case 7: return formatN(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+    default: throw new Error(msgInvalidArg);
+  }
+}
+
+function format1(arg: any): string{
+  if( typeof arg === "string" ){
+    const d = Impl.KanjiDate.tryFromString(arg);
+    if( d === null ){
+      return Impl.format(arg, new Impl.KanjiDate(new Date()));
+    } else {
+      return Impl.format(f1, d);
+    }
+  } else if( arg instanceof Date ){
+    return Impl.format(f1, new Impl.KanjiDate(arg));
+  } else {
+    throw new Error(msgInvalidArg);
+  }
+}
+
+function format2(arg1: any, arg2: any): string {
+  let fmt: string
+  if( typeof arg1 === "string" ){
+    fmt = arg1;
+  } else {
+    throw new Error(msgInvalidArg);
+  }
+  let d: Impl.KanjiDate;
+  if( typeof arg2 === "string" ){
+    d = Impl.KanjiDate.fromString(arg2);
+  } else if( arg2 instanceof Date ){
+    d = new Impl.KanjiDate(arg2);
+  } else {
+    throw new Error(msgInvalidArg);
+  }
+  return Impl.format(fmt, d);
+}
+
+function formatN(fmtArg: any, yearArg: any, monthArg: any, dayArg: any,
+  hourArg?: any, minuteArg?: any, secondArg?: any): string {
+    try {
+      const fmt: string = fmtArg as string;
+      const year: number = yearArg as number;
+      const month: number = monthArg as number;
+      const day: number = dayArg as number;
+      let hour: number;
+      if( hourArg === undefined ){
+        hour = 0;
       } else {
-        d = Impl.KanjiDate.fromString(yearOrStr);
+        hour = hourArg as number;
       }
-      return Impl.format(fmtStr, d);
+      let minute: number;
+      if( minuteArg === undefined ){
+        minute = 0;
+      } else {
+        minute = minuteArg as number;
+      }
+      let second: number;
+      if( secondArg === undefined ){
+        second = 0;
+      } else {
+        second = secondArg as number;
+      }
+      return Impl.format(fmt, new Impl.KanjiDate(
+        new Date(year, month - 1, day, hour, minute, second)
+      ));
+    } catch(ex) {
+      console.error(ex);
+      throw new Error(msgInvalidArg);
+    }
   }
