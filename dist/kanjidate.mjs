@@ -45,9 +45,7 @@ var Impl;
   }
   Impl2.Gengou = Gengou;
   class Gregorian {
-    constructor() {
-      this.identity = "";
-    }
+    identity = "";
   }
   Impl2.Gregorian = Gregorian;
   const Meiji = new Gengou("\u660E\u6CBB", "Meiji", new Kdate(1873, 1, 1), 1868);
@@ -125,6 +123,19 @@ var Impl;
   }
   Impl2.toYoubi = toYoubi2;
   class KanjiDate {
+    year;
+    month;
+    day;
+    hour;
+    minute;
+    second;
+    msec;
+    dayOfWeek;
+    dayOfWeekAlpha;
+    wareki;
+    gengou;
+    nen;
+    youbi;
     constructor(date) {
       this.year = date.getFullYear();
       this.month = date.getMonth() + 1;
