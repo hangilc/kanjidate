@@ -1,6 +1,6 @@
 {
   "name": "kanjidate",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "a small library that formats dates in Japanese",
   "main": "./dist/kanjidate.js",
   "module": "./dist/index.mjs",
@@ -26,8 +26,8 @@
   "author": "Hangil Chang",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.5.3",
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
     "tsup": "^6.2.3",
     "typescript": "^4.8.4"
   }

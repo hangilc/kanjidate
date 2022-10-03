@@ -2,7 +2,7 @@
 
 A small JavaScript library that 1) formats date in Japanese and 2) converts dates between Gregorian calendar and Japanese calendar.
 
-Current version (1.2.4) is implemented by TypeScript and supports both CommonJS and EMS modules.
+Current version (1.2.5) is implemented by TypeScript and supports both CommonJS and EMS modules.
 Version (1.1.3) supports Japanese new era Reiwa, which started at May 1, 2019.
 
 ## Install
