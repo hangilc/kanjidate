@@ -1,8 +1,8 @@
 {
   "name": "kanjidate",
-  "version": "1.2.0",
+  "version": "1.2.4",
   "description": "a small library that formats dates in Japanese",
-  "main": "dist/kanjidate.js",
+  "main": "./dist/kanjidate.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "repository": {
@@ -11,7 +11,7 @@
   },
   "exports": {
     ".": {
-      "require": "./dist/kanjidate.cjs",
+      "require": "./dist/kanjidate.js",
       "import": "./dist/kanjidate.mjs"
     }
   },
