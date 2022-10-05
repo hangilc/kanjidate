@@ -20,6 +20,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // kanjidate.ts
 var kanjidate_exports = {};
 __export(kanjidate_exports, {
+  calcAge: () => calcAge,
   f1: () => f1,
   f10: () => f10,
   f11: () => f11,
@@ -42,6 +43,38 @@ __export(kanjidate_exports, {
   toYoubi: () => toYoubi
 });
 module.exports = __toCommonJS(kanjidate_exports);
+
+// age.ts
+function calcAge(birthday, at) {
+  at = at || new Date();
+  const b = {
+    year: birthday.getFullYear(),
+    month: birthday.getMonth(),
+    day: birthday.getDate()
+  };
+  const a = {
+    year: at.getFullYear(),
+    month: at.getMonth(),
+    day: at.getDate()
+  };
+  if (a.year <= b.year) {
+    return 0;
+  } else {
+    if (a.month > b.month) {
+      return a.year - b.year;
+    } else if (a.month < b.month) {
+      return a.year - b.year - 1;
+    } else {
+      if (a.day >= b.day) {
+        return a.year - b.year;
+      } else {
+        return a.year - b.year - 1;
+      }
+    }
+  }
+}
+
+// kanjidate.ts
 var Impl;
 ((Impl2) => {
   class Kdate {
@@ -612,6 +645,7 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  calcAge,
   f1,
   f10,
   f11,

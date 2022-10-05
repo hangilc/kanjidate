@@ -1,3 +1,5 @@
+export * from "./age";
+
 namespace Impl {
   export class Kdate {
     constructor(

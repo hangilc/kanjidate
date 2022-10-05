@@ -1,3 +1,5 @@
+declare function calcAge(birthday: Date, at?: Date): number;
+
 declare class Wareki {
     gengou: string;
     nen: number;
@@ -28,4 +30,4 @@ declare function format(fmt: string, date: Date): string;
 declare function format(fmt: string, date: string): string;
 declare function format(fmt: string, year: number, month: number, day: number, hour?: number, minute?: number, second?: number): string;
 
-export { f1, f10, f11, f12, f13, f14, f2, f3, f4, f5, f6, f7, f8, f9, fSqlDate, fSqlDateTime, format, fromGengou, toGengou, toYoubi };
+export { calcAge, f1, f10, f11, f12, f13, f14, f2, f3, f4, f5, f6, f7, f8, f9, fSqlDate, fSqlDateTime, format, fromGengou, toGengou, toYoubi };
