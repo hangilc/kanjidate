@@ -73,6 +73,13 @@ export class Gregorian {
   }
 }
 
+const youbi = ["日", "月", "火", "水", "木", "金", "土"];
+const dayOfWeeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+export function toYoubi(dayOfWeek: number): string {
+  return youbi[dayOfWeek % 7];
+}
+
 export const Meiji: Gengou = 
   new Gengou("明治", "Meiji", new OrderedDate(1873, 1, 1), 1868);
 export const Taishou: Gengou =
@@ -110,13 +117,6 @@ export class JapaneseYear {
     return new JapaneseYear(date.getFullYear(), date.getMonth()+1, date.getDate());
   }
 
-}
-
-const youbi = ["日", "月", "火", "水", "木", "金", "土"];
-const dayOfWeeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-export function toYoubi(dayOfWeek: number) {
-  return youbi[dayOfWeek % 7];
 }
 
 export class KanjiDate{
@@ -386,7 +386,7 @@ namespace Impl {
     }
   }
 
-    class FormatToken {
+  class FormatToken {
     constructor(
       public part: string,
       public opts: Array<string> = []
@@ -469,6 +469,8 @@ namespace Impl {
   ]);
 
   class UnknownModifierError {
+    public isUnknownModifier: boolean = true;
+
     constructor(
       public cause: string
     ) {}
@@ -678,15 +680,16 @@ namespace Impl {
 // }
 
 
-export function toGengou(year: number, month: number, day: number): Wareki {
-  const d = new Impl.Kdate(year, month, day);
-  const w = Impl.toWareki(d);
-  if( w instanceof Impl.Wareki ){
-    return new Wareki(w.gengou.kanji, w.nen)
-  } else {
-    return new Wareki("西暦", w.year);
-  }
-}
+namespace Orig {
+// export function toGengou(year: number, month: number, day: number): Wareki {
+//   const d = new Impl.Kdate(year, month, day);
+//   const w = Impl.toWareki(d);
+//   if( w instanceof Impl.Wareki ){
+//     return new Wareki(w.gengou.kanji, w.nen)
+//   } else {
+//     return new Wareki("西暦", w.year);
+//   }
+// }
 
 export function fromGengou(gengou: string, nen: number): number {
   const g = Impl.stringToGengou(gengou);
@@ -807,3 +810,4 @@ function formatN(fmtArg: any, yearArg: any, monthArg: any, dayArg: any,
       throw new Error(msgInvalidArg);
     }
   }
+}

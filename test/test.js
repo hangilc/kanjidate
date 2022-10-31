@@ -1,5 +1,5 @@
 var expect = expect || require("chai").expect;
-var kanjidate = kanjidate || require("../dist/kanjidate.js");
+var kanjidate = kanjidate || require("../dist/index.js");
 
 describe("convert to gengou", function(){
 	it("calculates gengou from year, month and day", function(){
@@ -44,7 +44,7 @@ describe("convert from gengou", function(){
 		expect(kanjidate.fromGengou("西暦", 1857)).equal(1857);
 	});
 	it("calculate year from gengou and nen", function(){
-		expect(function(){ return kanjidate.fromGengou("元号", 32); }).to.throw("invalid gengou: 元号");
+		expect(function(){ return kanjidate.fromGengou("元号", 32); }).to.throw("Invalid gengou: 元号");
 	});
 	it("calculate year from gengou and nen", function(){
 		expect(function(){ return kanjidate.fromGengou("平成", -3); }).to.throw(Error);

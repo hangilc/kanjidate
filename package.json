@@ -2,22 +2,22 @@
   "name": "kanjidate",
   "version": "1.3.0",
   "description": "a small library that formats dates in Japanese",
-  "main": "./dist/kanjidate.js",
-  "module": "./dist/kanjidate.mjs",
-  "types": "./dist/kanjidate.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/hangilc/kanjidate.git"
   },
   "exports": {
     ".": {
-      "require": "./dist/kanjidate.js",
-      "import": "./dist/kanjidate.mjs",
-      "types": "./dist/kanjidate.d.ts"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     }
   },
   "scripts": {
-    "build": "tsup kanjidate.ts --format cjs,esm --dts --clean",
+    "build": "tsup index.ts --format cjs,esm --dts --clean",
     "test": "mocha --reporter spec",
     "tsc": "tsc"
   },

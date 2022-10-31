@@ -1,5 +1,5 @@
 var expect = expect || require("chai").expect;
-var kanjidate = kanjidate || require("../dist/kanjidate.js");
+var kanjidate = kanjidate || require("../dist/index.js");
 
 describe("calculate age", function() {
   it("should calculate age after birthday", function(){
