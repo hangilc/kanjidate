@@ -1,4 +1,4 @@
-import { KanjiDate } from "./kanjidate"
+import { KanjiDate, Gengou } from "./kanjidate"
 
 const zenkakuDigits = ["０", "１", "２", "３", "４", "５", "６", "７", "８", "９"];
 const alphaDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -75,16 +75,117 @@ const gengouProcessor: IProcessor = new class implements IProcessor {
     } else if( extractOpt("2", opts) ){
       return data.gengou;
     } else if( extractOpt("a", opts) ){
-      const wareki: Impl.Wareki = data.wareki as Wareki;
-      return wareki.gengou.alpha[0];
+      if( data.japaneseYear.era instanceof Gengou ) {
+        return data.japaneseYear.era.alpha[0];
+      } else {
+        throw new Error("Invalid gengou: " + data.gengou);
+      }
     } else if( extractOpt("alpha", opts) ){
-      const wareki: Impl.Wareki = data.wareki as Wareki;
-      return wareki.gengou.alpha;
+      if( data.japaneseYear.era instanceof Gengou ) {
+        return data.japaneseYear.era.alpha;
+      } else {
+        throw new Error("Invalid gengou: " + data.gengou);
+      }
     } else {
       return data.gengou;
     }
   }
 };
+
+const nenProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    extractOpt("1", opts);
+    if( extractOpt("g", opts) ){
+      if( data.nen === 1 ){
+        return "元";
+      } else {
+        return data.nen.toString();
+      }
+    } else {
+      return data.nen.toString();
+    }
+  }
+}
+
+const monthProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    return data.month.toString();
+  }
+}
+
+const dayProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    return data.day.toString();
+  }
+}
+
+const dowProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    if( extractOpt("1", opts) ){
+      return data.youbi;
+    } else if( extractOpt("2", opts) ){
+      return data.youbi + "曜";
+    } else if( extractOpt("3", opts) ){
+      return data.youbi + "曜日";
+    } else if( extractOpt("alpha", opts) ){
+      return data.dayOfWeekAlpha;
+    } else {{
+      return data.youbi;
+    }}
+  }
+}
+
+const hourProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    if( extractOpt("12", opts) ){
+      return (data.hour % 12).toString();
+    } else {
+      return data.hour.toString();
+    }
+  }
+}
+
+const minuteProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    return data.minute.toString();
+  }
+}
+
+const secondProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    return data.second.toString();
+  }
+}
+
+const ampmProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    if( extractOpt("am/pm", opts) ){
+      if( data.hour < 12 ){
+        return "am";
+      } else {
+        return "pm";
+      }
+    } else if( extractOpt("AM/PM", opts) ){
+      if( data.hour < 12 ){
+        return "AM";
+      } else {
+        return "PM";
+      }
+    } else {
+      if( data.hour < 12 ){
+        return "午前";
+      } else {
+        return "午後";
+      }
+    }
+  }
+}
+
+const yearProcessor: IProcessor = new class implements IProcessor {
+  process(data: KanjiDate, opts: Array<string>): string {
+    return data.year.toString();
+  }
+}
 
 const processorMap: Map<string, IProcessor> = new Map([
   ["G", gengouProcessor],
