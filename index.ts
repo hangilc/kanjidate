@@ -3,6 +3,13 @@ export {
   toYoubi 
 } from "./kanjidate"
 export { calcAge } from "./age"
+export { 
+  lastDayOfMonth,
+  addDays,
+  addMonths,
+  addYears,
+ } from "./manip"
+
 import { 
   JapaneseYear,
   Gengou, 

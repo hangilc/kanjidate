@@ -21,6 +21,9 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var kanjidate_exports = {};
 __export(kanjidate_exports, {
   KanjiDate: () => KanjiDate,
+  addDays: () => addDays,
+  addMonths: () => addMonths,
+  addYears: () => addYears,
   calcAge: () => calcAge,
   f1: () => f1,
   f10: () => f10,
@@ -40,6 +43,7 @@ __export(kanjidate_exports, {
   fSqlDateTime: () => fSqlDateTime,
   format: () => format2,
   fromGengou: () => fromGengou,
+  lastDayOfMonth: () => lastDayOfMonth,
   toGengou: () => toGengou,
   toYoubi: () => toYoubi
 });
@@ -794,6 +798,35 @@ var Orig;
   }
 })(Orig || (Orig = {}));
 
+// manip.ts
+function lastDayOfMonth(year, month) {
+  return new Date(year, month, 0).getDate();
+}
+function addDays(date, n) {
+  let d = date.getDate() + n;
+  let c = new Date(date);
+  c.setDate(d);
+  return c;
+}
+function addMonths(date, n) {
+  let m = date.getMonth() + n;
+  let c = new Date(date);
+  c.setMonth(m);
+  if (c.getDate() !== date.getDate()) {
+    c.setDate(0);
+  }
+  return c;
+}
+function addYears(date, n) {
+  let y = date.getFullYear() + n;
+  let c = new Date(date);
+  c.setFullYear(y);
+  if (c.getDate() !== date.getDate()) {
+    c.setDate(0);
+  }
+  return c;
+}
+
 // formatter.ts
 var zenkakuDigits = ["\uFF10", "\uFF11", "\uFF12", "\uFF13", "\uFF14", "\uFF15", "\uFF16", "\uFF17", "\uFF18", "\uFF19"];
 var alphaDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -1181,6 +1214,9 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   KanjiDate,
+  addDays,
+  addMonths,
+  addYears,
   calcAge,
   f1,
   f10,
@@ -1200,6 +1236,7 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
   fSqlDateTime,
   format,
   fromGengou,
+  lastDayOfMonth,
   toGengou,
   toYoubi
 });

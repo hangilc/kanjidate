@@ -50,6 +50,11 @@ declare class KanjiDate {
     static fromString(str: string): KanjiDate;
 }
 
+declare function lastDayOfMonth(year: number, month: number): number;
+declare function addDays(date: Date, n: number): Date;
+declare function addMonths(date: Date, n: number): Date;
+declare function addYears(date: Date, n: number): Date;
+
 interface Wareki {
     gengou: string;
     nen: number;
@@ -78,4 +83,4 @@ declare function format(fmt: string, date: Date): string;
 declare function format(fmt: string, date: string): string;
 declare function format(fmt: string, year: number, month: number, day: number, hour?: number, minute?: number, second?: number): string;
 
-export { KanjiDate, Wareki, calcAge, f1, f10, f11, f12, f13, f14, f2, f3, f4, f5, f6, f7, f8, f9, fSqlDate, fSqlDateTime, format, fromGengou, toGengou, toYoubi };
+export { KanjiDate, Wareki, addDays, addMonths, addYears, calcAge, f1, f10, f11, f12, f13, f14, f2, f3, f4, f5, f6, f7, f8, f9, fSqlDate, fSqlDateTime, format, fromGengou, lastDayOfMonth, toGengou, toYoubi };
