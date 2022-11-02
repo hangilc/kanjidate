@@ -20,7 +20,12 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // index.ts
 var kanjidate_exports = {};
 __export(kanjidate_exports, {
+  Heisei: () => Heisei,
   KanjiDate: () => KanjiDate,
+  Meiji: () => Meiji,
+  Reiwa: () => Reiwa,
+  Shouwa: () => Shouwa,
+  Taishou: () => Taishou,
   addDays: () => addDays,
   addMonths: () => addMonths,
   addYears: () => addYears,
@@ -44,6 +49,7 @@ __export(kanjidate_exports, {
   format: () => format2,
   fromGengou: () => fromGengou,
   lastDayOfMonth: () => lastDayOfMonth,
+  nenRangeOf: () => nenRangeOf,
   toGengou: () => toGengou,
   toYoubi: () => toYoubi
 });
@@ -160,6 +166,18 @@ var GengouList = [
   Taishou,
   Meiji
 ];
+function nenRangeOf(g) {
+  const i = GengouList.findIndex((e) => e == g);
+  if (i == 0) {
+    const kd = new KanjiDate(new Date());
+    return [1, kd.nen];
+  } else if (i > 0) {
+    const pre = GengouList[i - 1];
+    return [1, g.getNenOf(pre.start.year)];
+  } else {
+    throw new Error("Invalid gengou: " + g);
+  }
+}
 var JapaneseYear = class {
   era;
   nen;
@@ -1213,7 +1231,12 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  Heisei,
   KanjiDate,
+  Meiji,
+  Reiwa,
+  Shouwa,
+  Taishou,
   addDays,
   addMonths,
   addYears,
@@ -1237,6 +1260,7 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
   format,
   fromGengou,
   lastDayOfMonth,
+  nenRangeOf,
   toGengou,
   toYoubi
 });

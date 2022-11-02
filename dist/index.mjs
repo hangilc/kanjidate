@@ -109,6 +109,18 @@ var GengouList = [
   Taishou,
   Meiji
 ];
+function nenRangeOf(g) {
+  const i = GengouList.findIndex((e) => e == g);
+  if (i == 0) {
+    const kd = new KanjiDate(new Date());
+    return [1, kd.nen];
+  } else if (i > 0) {
+    const pre = GengouList[i - 1];
+    return [1, g.getNenOf(pre.start.year)];
+  } else {
+    throw new Error("Invalid gengou: " + g);
+  }
+}
 var JapaneseYear = class {
   era;
   nen;
@@ -1161,7 +1173,12 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
   }
 }
 export {
+  Heisei,
   KanjiDate,
+  Meiji,
+  Reiwa,
+  Shouwa,
+  Taishou,
   addDays,
   addMonths,
   addYears,
@@ -1185,6 +1202,7 @@ export {
   format2 as format,
   fromGengou,
   lastDayOfMonth,
+  nenRangeOf,
   toGengou,
   toYoubi
 };

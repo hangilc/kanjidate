@@ -1,6 +1,12 @@
 export { 
   KanjiDate, 
-  toYoubi 
+  toYoubi,
+  nenRangeOf, 
+  Meiji,
+  Taishou,
+  Shouwa,
+  Heisei,
+  Reiwa
 } from "./kanjidate"
 export { calcAge } from "./age"
 export { 

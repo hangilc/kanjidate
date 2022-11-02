@@ -1,3 +1,5 @@
+const { KanjiDate } = require("../dist/index.js");
+
 var expect = expect || require("chai").expect;
 var kanjidate = kanjidate || require("../dist/index.js");
 
@@ -324,6 +326,21 @@ describe("format to SqlDate, SqlDateTime", function(){
 			.equal("2016-06-20 23:24:12");
 	})
 });
+
+describe("nen range", () => {
+	it("should report Reiwa range", () => {
+		const kd = new KanjiDate(new Date());
+		expect(kanjidate.nenRangeOf(kanjidate.Reiwa)).to.deep.equal([1, kd.nen]);
+	})
+
+	it("should report Heisei range", () => {
+		expect(kanjidate.nenRangeOf(kanjidate.Heisei)).to.deep.equal([1, 31]);
+	})
+
+	it("should report Shouwa range", () => {
+		expect(kanjidate.nenRangeOf(kanjidate.Shouwa)).to.deep.equal([1, 64]);
+	})
+})
 
 
 
