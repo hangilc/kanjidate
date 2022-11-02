@@ -1173,6 +1173,7 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
   }
 }
 export {
+  Gengou,
   Heisei,
   KanjiDate,
   Meiji,

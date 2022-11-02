@@ -6,7 +6,8 @@ export {
   Taishou,
   Shouwa,
   Heisei,
-  Reiwa
+  Reiwa,
+  Gengou,
 } from "./kanjidate"
 export { calcAge } from "./age"
 export { 
