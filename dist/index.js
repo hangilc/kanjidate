@@ -47,6 +47,7 @@ __export(kanjidate_exports, {
   f9: () => f9,
   fSqlDate: () => fSqlDate,
   fSqlDateTime: () => fSqlDateTime,
+  firstDayOfWeek: () => firstDayOfWeek,
   format: () => format2,
   fromGengou: () => fromGengou,
   lastDayOfMonth: () => lastDayOfMonth,
@@ -821,6 +822,10 @@ var Orig;
 function lastDayOfMonth(year, month) {
   return new Date(year, month, 0).getDate();
 }
+function firstDayOfWeek(aDay) {
+  const dow = aDay.getDay();
+  return addDays(aDay, -dow);
+}
 function addDays(date, n) {
   let d = date.getDate() + n;
   let c = new Date(date);
@@ -1259,6 +1264,7 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
   f9,
   fSqlDate,
   fSqlDateTime,
+  firstDayOfWeek,
   format,
   fromGengou,
   lastDayOfMonth,

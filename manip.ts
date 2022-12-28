@@ -2,6 +2,11 @@ export function lastDayOfMonth(year: number, month: number): number {
   return new Date(year, month, 0).getDate();
 }
 
+export function firstDayOfWeek(aDay: Date): Date {
+  const dow = aDay.getDay();
+  return addDays(aDay, -dow);
+}
+
 export function addDays(date: Date, n: number): Date {
   let d: number = date.getDate() + n;
   let c = new Date(date);

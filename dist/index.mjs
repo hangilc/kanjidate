@@ -763,6 +763,10 @@ var Orig;
 function lastDayOfMonth(year, month) {
   return new Date(year, month, 0).getDate();
 }
+function firstDayOfWeek(aDay) {
+  const dow = aDay.getDay();
+  return addDays(aDay, -dow);
+}
 function addDays(date, n) {
   let d = date.getDate() + n;
   let c = new Date(date);
@@ -1200,6 +1204,7 @@ export {
   f9,
   fSqlDate,
   fSqlDateTime,
+  firstDayOfWeek,
   format2 as format,
   fromGengou,
   lastDayOfMonth,

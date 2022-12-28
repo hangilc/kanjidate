@@ -14,6 +14,12 @@ describe("testing manip", () => {
     expect(kanjidate.lastDayOfMonth(2024, 2)).equal(29);
   });
 
+  it("should report first day of week of Dec 28, 2022 as Dec 25, 2022", () => {
+    const d = new Date("2022-12-28");
+    const e = new Date("2022-12-25");
+    expect(kanjidate.firstDayOfWeek(d), e);
+  });
+
   it("should add days in simple case", () => {
     const d = new Date(2022, 10, 2);
     expect(kanjidate.addDays(d, 3)).to.deep.equal(new Date(2022, 10, 5));
