@@ -7,6 +7,10 @@ export function firstDayOfWeek(aDay: Date): Date {
   return addDays(aDay, -dow);
 }
 
+export function dateRange(startDate: Date, n: number): Date[] {
+  return [...Array(n)].map((_, i) => addDays(startDate, i));
+}
+
 export function addDays(date: Date, n: number): Date {
   let d: number = date.getDate() + n;
   let c = new Date(date);

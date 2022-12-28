@@ -767,6 +767,9 @@ function firstDayOfWeek(aDay) {
   const dow = aDay.getDay();
   return addDays(aDay, -dow);
 }
+function dateRange(startDate, n) {
+  return [...Array(n)].map((_, i) => addDays(startDate, i));
+}
 function addDays(date, n) {
   let d = date.getDate() + n;
   let c = new Date(date);
@@ -1188,6 +1191,7 @@ export {
   addMonths,
   addYears,
   calcAge,
+  dateRange,
   f1,
   f10,
   f11,

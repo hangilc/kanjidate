@@ -20,6 +20,12 @@ describe("testing manip", () => {
     expect(kanjidate.firstDayOfWeek(d), e);
   });
 
+  it("should report correct date range of Dec 12, 2022 with size 3", () => {
+    expect(kanjidate.dateRange(new Date("2022-12-28"), 3)).deep.equal(
+      [new Date("2022-12-28"), new Date("2022-12-29"), new Date("2022-12-30")]
+    )
+  })
+
   it("should add days in simple case", () => {
     const d = new Date(2022, 10, 2);
     expect(kanjidate.addDays(d, 3)).to.deep.equal(new Date(2022, 10, 5));

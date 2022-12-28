@@ -13,6 +13,7 @@ export { calcAge } from "./age"
 export { 
   lastDayOfMonth,
   firstDayOfWeek,
+  dateRange,
   addDays,
   addMonths,
   addYears,

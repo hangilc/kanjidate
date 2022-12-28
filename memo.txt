@@ -1,0 +1,3 @@
+publish patch version as next 
+> npm version patch
+> npm publish --tag next
