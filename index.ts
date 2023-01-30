@@ -8,6 +8,7 @@ export {
   Heisei,
   Reiwa,
   Gengou,
+  GengouList,
 } from "./kanjidate"
 export { calcAge } from "./age"
 export { 

@@ -21,6 +21,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var kanjidate_exports = {};
 __export(kanjidate_exports, {
   Gengou: () => Gengou,
+  GengouList: () => GengouList,
   Heisei: () => Heisei,
   KanjiDate: () => KanjiDate,
   Meiji: () => Meiji,
@@ -1242,6 +1243,7 @@ function formatN(fmtArg, yearArg, monthArg, dayArg, hourArg, minuteArg, secondAr
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   Gengou,
+  GengouList,
   Heisei,
   KanjiDate,
   Meiji,
