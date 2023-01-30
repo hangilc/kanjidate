@@ -1,14 +1,25 @@
 {
   "name": "kanjidate",
-  "version": "1.1.3",
+  "version": "1.2.8",
   "description": "a small library that formats dates in Japanese",
-  "main": "kanjidate.js",
+  "main": "./dist/kanjidate.js",
+  "module": "./dist/kanjidate.mjs",
+  "types": "./dist/kanjidate.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/hangilc/kanjidate.git"
   },
+  "exports": {
+    ".": {
+      "require": "./dist/kanjidate.js",
+      "import": "./dist/kanjidate.mjs",
+      "types": "./dist/kanjidate.d.ts"
+    }
+  },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "build": "tsup kanjidate.ts --format cjs,esm --dts --clean",
+    "test": "mocha --reporter spec",
+    "tsc": "tsc"
   },
   "keywords": [
     "date"
@@ -16,8 +27,9 @@
   "author": "Hangil Chang",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^3.5.0",
-    "mocha": "^2.5.3"
-  },
-  "types": "kanjidate.d.ts"
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0",
+    "tsup": "^6.2.3",
+    "typescript": "^4.8.4"
+  }
 }
