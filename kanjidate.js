@@ -17,9 +17,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.KanjiDate = exports.JapaneseYear = exports.nenRangeOf = exports.GengouList = exports.Reiwa = exports.Heisei = exports.Shouwa = exports.Taishou = exports.Meiji = exports.toYoubi = exports.Gregorian = exports.Gengou = void 0;
 __exportStar(require("./age"), exports);
 class OrderedDate {
-    year;
-    month;
-    day;
     constructor(year, month, day) {
         this.year = year;
         this.month = month;
@@ -47,10 +44,6 @@ class OrderedDate {
     }
 }
 class Gengou {
-    kanji;
-    alpha;
-    start;
-    nenStartYear;
     constructor(kanji, alpha, start, nenStartYear = start.year) {
         this.kanji = kanji;
         this.alpha = alpha;
@@ -78,7 +71,9 @@ class Gengou {
 }
 exports.Gengou = Gengou;
 class Gregorian {
-    isGregorian = true;
+    constructor() {
+        this.isGregorian = true;
+    }
     static fromString(s) {
         if (s == "西暦") {
             return new Gregorian();
@@ -119,8 +114,6 @@ function nenRangeOf(g) {
 }
 exports.nenRangeOf = nenRangeOf;
 class JapaneseYear {
-    era;
-    nen;
     constructor(year, month, day) {
         const od = new OrderedDate(year, month, day);
         for (let i = 0; i < exports.GengouList.length; i++) {
@@ -140,19 +133,6 @@ class JapaneseYear {
 }
 exports.JapaneseYear = JapaneseYear;
 class KanjiDate {
-    year;
-    month;
-    day;
-    hour;
-    minute;
-    second;
-    msec;
-    dayOfWeek;
-    dayOfWeekAlpha;
-    japaneseYear;
-    gengou;
-    nen;
-    youbi;
     constructor(date) {
         this.year = date.getFullYear();
         this.month = date.getMonth() + 1;
@@ -203,9 +183,6 @@ exports.KanjiDate = KanjiDate;
 var Impl;
 (function (Impl) {
     class Kdate {
-        year;
-        month;
-        day;
         constructor(year, month, day) {
             this.year = year;
             this.month = month;
@@ -231,10 +208,6 @@ var Impl;
     }
     Impl.Kdate = Kdate;
     class Gengou {
-        kanji;
-        alpha;
-        start;
-        nenStartYear;
         constructor(kanji, alpha, start, nenStartYear = start.year) {
             this.kanji = kanji;
             this.alpha = alpha;
@@ -256,7 +229,9 @@ var Impl;
     }
     Impl.Gengou = Gengou;
     class Gregorian {
-        identity = "";
+        constructor() {
+            this.identity = "";
+        }
     }
     Impl.Gregorian = Gregorian;
     const Meiji = new Gengou("明治", "Meiji", new Kdate(1873, 1, 1), 1868);
@@ -268,8 +243,6 @@ var Impl;
         Reiwa, Heisei, Shouwa, Taishou, Meiji
     ];
     class Wareki {
-        gengou;
-        nen;
         constructor(gengou, nen) {
             this.gengou = gengou;
             this.nen = nen;
@@ -283,7 +256,6 @@ var Impl;
     }
     Impl.Wareki = Wareki;
     class Seireki {
-        year;
         constructor(year) {
             this.year = year;
         }
@@ -334,19 +306,6 @@ var Impl;
     }
     Impl.toYoubi = toYoubi;
     class KanjiDate {
-        year;
-        month;
-        day;
-        hour;
-        minute;
-        second;
-        msec;
-        dayOfWeek;
-        dayOfWeekAlpha;
-        wareki;
-        gengou;
-        nen;
-        youbi;
         constructor(date) {
             this.year = date.getFullYear();
             this.month = date.getMonth() + 1;
@@ -389,8 +348,6 @@ var Impl;
     }
     Impl.KanjiDate = KanjiDate;
     class FormatToken {
-        part;
-        opts;
         constructor(part, opts = []) {
             this.part = part;
             this.opts = opts;
@@ -464,10 +421,9 @@ var Impl;
         ["z", toZenkaku]
     ]);
     class UnknownModifierError {
-        cause;
-        isUnknownModifier = true;
         constructor(cause) {
             this.cause = cause;
+            this.isUnknownModifier = true;
         }
     }
     function applyModifiers(src, mods) {

@@ -48,8 +48,6 @@ function pad(s, reqLen, padStr = "0") {
     return result;
 }
 class FormatToken {
-    part;
-    opts;
     constructor(part, opts = []) {
         this.part = part;
         this.opts = opts;
@@ -250,11 +248,10 @@ function parseFormatString(fmtStr) {
     });
 }
 class UnknownModifierError extends Error {
-    cause;
-    isUnknownModifier = true;
     constructor(cause) {
         super();
         this.cause = cause;
+        this.isUnknownModifier = true;
     }
 }
 function applyModifiers(src, mods) {
