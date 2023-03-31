@@ -1,5 +1,5 @@
 var expect = expect || require("chai").expect;
-var kanjidate = kanjidate || require("../dist/index.js");
+var kanjidate = kanjidate || require("../index.js");
 
 describe("testing manip", () => {
   it("should report last day of Jan, 2022", () => {

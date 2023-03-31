@@ -1,7 +1,7 @@
-const { KanjiDate } = require("../dist/index.js");
+const { KanjiDate } = require("../index.js");
 
 var expect = expect || require("chai").expect;
-var kanjidate = kanjidate || require("../dist/index.js");
+var kanjidate = kanjidate || require("../index.js");
 
 describe("convert to gengou", function () {
   it("calculates gengou from year, month and day", function () {
