@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.calcAge = void 0;
 function calcAge(birthday, at) {
     at = at || new Date();
     const b = {
@@ -33,4 +30,4 @@ function calcAge(birthday, at) {
         }
     }
 }
-exports.calcAge = calcAge;
+export { calcAge };

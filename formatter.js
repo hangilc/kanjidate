@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.format = void 0;
-const kanjidate_1 = require("./kanjidate");
+import { Gengou } from "./kanjidate";
 const zenkakuDigits = ["０", "１", "２", "３", "４", "５", "６", "７", "８", "９"];
 const alphaDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
 function isZenkaku(c) {
@@ -72,7 +69,7 @@ const gengouProcessor = new class {
             return data.gengou;
         }
         else if (extractOpt("a", opts)) {
-            if (data.japaneseYear.era instanceof kanjidate_1.Gengou) {
+            if (data.japaneseYear.era instanceof Gengou) {
                 return data.japaneseYear.era.alpha[0];
             }
             else {
@@ -80,7 +77,7 @@ const gengouProcessor = new class {
             }
         }
         else if (extractOpt("alpha", opts)) {
-            if (data.japaneseYear.era instanceof kanjidate_1.Gengou) {
+            if (data.japaneseYear.era instanceof Gengou) {
                 return data.japaneseYear.era.alpha;
             }
             else {
@@ -267,7 +264,7 @@ function applyModifiers(src, mods) {
     }
     return cur;
 }
-function format(fmtStr, data) {
+export function format(fmtStr, data) {
     return parseFormatString(fmtStr).map(item => {
         if (item instanceof FormatToken) {
             const proc = processorMap.get(item.part);
@@ -288,4 +285,3 @@ function format(fmtStr, data) {
         }
     }).join("");
 }
-exports.format = format;

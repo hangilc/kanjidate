@@ -1,21 +1,4 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.KanjiDate = exports.JapaneseYear = exports.nenRangeOf = exports.GengouList = exports.Reiwa = exports.Heisei = exports.Shouwa = exports.Taishou = exports.Meiji = exports.toYoubi = exports.Gregorian = exports.Gengou = void 0;
-__exportStar(require("./age"), exports);
+export * from "./age";
 class OrderedDate {
     constructor(year, month, day) {
         this.year = year;
@@ -43,7 +26,7 @@ class OrderedDate {
         return new OrderedDate(date.getFullYear(), date.getMonth() + 1, date.getDate());
     }
 }
-class Gengou {
+export class Gengou {
     constructor(kanji, alpha, start, nenStartYear = start.year) {
         this.kanji = kanji;
         this.alpha = alpha;
@@ -60,8 +43,8 @@ class Gengou {
         return year - this.nenStartYear + 1;
     }
     static fromString(s) {
-        for (let i = 0; i < exports.GengouList.length; i++) {
-            const g = exports.GengouList[i];
+        for (let i = 0; i < GengouList.length; i++) {
+            const g = GengouList[i];
             if (g.kanji === s) {
                 return g;
             }
@@ -69,8 +52,7 @@ class Gengou {
         return null;
     }
 }
-exports.Gengou = Gengou;
-class Gregorian {
+export class Gregorian {
     constructor() {
         this.isGregorian = true;
     }
@@ -83,41 +65,38 @@ class Gregorian {
         }
     }
 }
-exports.Gregorian = Gregorian;
 const youbi = ["日", "月", "火", "水", "木", "金", "土"];
 const dayOfWeeks = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-function toYoubi(dayOfWeek) {
+export function toYoubi(dayOfWeek) {
     return youbi[dayOfWeek % 7];
 }
-exports.toYoubi = toYoubi;
-exports.Meiji = new Gengou("明治", "Meiji", new OrderedDate(1873, 1, 1), 1868);
-exports.Taishou = new Gengou("大正", "Taishou", new OrderedDate(1912, 7, 30));
-exports.Shouwa = new Gengou("昭和", "Shouwa", new OrderedDate(1926, 12, 25));
-exports.Heisei = new Gengou("平成", "Heisei", new OrderedDate(1989, 1, 8));
-exports.Reiwa = new Gengou("令和", "Reiwa", new OrderedDate(2019, 5, 1));
-exports.GengouList = [
-    exports.Reiwa, exports.Heisei, exports.Shouwa, exports.Taishou, exports.Meiji
+export const Meiji = new Gengou("明治", "Meiji", new OrderedDate(1873, 1, 1), 1868);
+export const Taishou = new Gengou("大正", "Taishou", new OrderedDate(1912, 7, 30));
+export const Shouwa = new Gengou("昭和", "Shouwa", new OrderedDate(1926, 12, 25));
+export const Heisei = new Gengou("平成", "Heisei", new OrderedDate(1989, 1, 8));
+export const Reiwa = new Gengou("令和", "Reiwa", new OrderedDate(2019, 5, 1));
+export const GengouList = [
+    Reiwa, Heisei, Shouwa, Taishou, Meiji
 ];
-function nenRangeOf(g) {
-    const i = exports.GengouList.findIndex(e => e == g);
+export function nenRangeOf(g) {
+    const i = GengouList.findIndex(e => e == g);
     if (i == 0) {
         const kd = new KanjiDate(new Date());
         return [1, kd.nen];
     }
     else if (i > 0) {
-        const pre = exports.GengouList[i - 1];
+        const pre = GengouList[i - 1];
         return [1, g.getNenOf(pre.start.year)];
     }
     else {
         throw new Error("Invalid gengou: " + g);
     }
 }
-exports.nenRangeOf = nenRangeOf;
-class JapaneseYear {
+export class JapaneseYear {
     constructor(year, month, day) {
         const od = new OrderedDate(year, month, day);
-        for (let i = 0; i < exports.GengouList.length; i++) {
-            const g = exports.GengouList[i];
+        for (let i = 0; i < GengouList.length; i++) {
+            const g = GengouList[i];
             if (g.isMyDate(od)) {
                 this.era = g;
                 this.nen = g.getNenOf(od.year);
@@ -131,8 +110,7 @@ class JapaneseYear {
         return new JapaneseYear(date.getFullYear(), date.getMonth() + 1, date.getDate());
     }
 }
-exports.JapaneseYear = JapaneseYear;
-class KanjiDate {
+export class KanjiDate {
     constructor(date) {
         this.year = date.getFullYear();
         this.month = date.getMonth() + 1;
@@ -179,7 +157,6 @@ class KanjiDate {
         }
     }
 }
-exports.KanjiDate = KanjiDate;
 // namespace Impl {
 //   export class Kdate {
 //     constructor(
