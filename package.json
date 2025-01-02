@@ -1,6 +1,6 @@
 {
   "name": "kanjidate",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "description": "a small library that formats dates in Japanese",
   "main": "./index.js",
   "type": "commonjs",
@@ -21,6 +21,6 @@
   "devDependencies": {
     "chai": "5.1.1",
     "mocha": "^10.7.3",
-    "typescript": "5.6.3"
+    "typescript": "5.7.2"
   }
 }

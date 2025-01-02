@@ -1,4 +1,4 @@
-export function calcAge(birthday: Date, at?: Date): number {
+function calcAge(birthday: Date, at?: Date): number {
   at = at || new Date();
   const b = {
     year: birthday.getFullYear(),
@@ -26,3 +26,7 @@ export function calcAge(birthday: Date, at?: Date): number {
     }
   }
 }
+
+export {
+  calcAge
+};
