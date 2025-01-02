@@ -1,10 +1,10 @@
 {
   "name": "kanjidate",
-  "version": "1.4.7",
+  "version": "1.4.9",
   "description": "a small library that formats dates in Japanese",
-  "main": "./index.js",
+  "main": "./kanjidate.js",
   "type": "module",
-  "types": "./index.d.ts",
+  "types": "./kanjidate.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/hangilc/kanjidate.git"

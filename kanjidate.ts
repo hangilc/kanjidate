@@ -1,4 +1,5 @@
 export * from "./age";
+export * from "./manip";
 
 class OrderedDate {
   constructor(
