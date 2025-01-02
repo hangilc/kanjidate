@@ -57,3 +57,9 @@ export declare class KanjiDate {
     static tryFromString(str: string): KanjiDate | null;
     static fromString(str: string): KanjiDate;
 }
+export declare function fromGengou(gengou: string, nen: number): number;
+export interface Wareki {
+    gengou: string;
+    nen: number;
+}
+export declare function toGengou(year: number, month: number, day: number): Wareki;

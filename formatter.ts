@@ -261,7 +261,15 @@ function applyModifiers(src: string, mods: Array<string>):
   return cur;
 }
 
-export function format(fmtStr: string, data: KanjiDate): string {
+export function format(fmtStr: string, src: KanjiDate | string | Date): string {
+  let data: KanjiDate;
+  if( typeof src === "string" ){
+    data = KanjiDate.fromString(src);
+  } else if( src instanceof Date ){
+    data = new KanjiDate(src);
+  } else {
+    data = src;
+  }
   return parseFormatString(fmtStr).map(item => {
     if( item instanceof FormatToken ){
       const proc = processorMap.get(item.part);
@@ -280,4 +288,21 @@ export function format(fmtStr: string, data: KanjiDate): string {
     }
   }).join("");
 }
+
+export const f1 = "{G}{N}年{M}月{D}日（{W}）";
+export const f2 = "{G}{N}年{M}月{D}日";
+export const f3 = "{G:a}{N}.{M}.{D}";
+export const f4 = "{G}{N:2}年{M:2}月{D:2}日（{W}）";
+export const f5 = "{G}{N:2}年{M:2}月{D:2}日";
+export const f6 = "{G:a}{N:2}.{M:2}.{D:2}";
+export const f7 = "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分{s}秒";
+export const f8 = "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分{s:2}秒";
+export const f9 = "{G}{N}年{M}月{D}日（{W}） {a}{h:12}時{m}分";
+export const f10 = "{G}{N:2}年{M:2}月{D:2}日（{W}） {a}{h:12,2}時{m:2}分";
+export const f11 = "{G}{N:z}年{M:z}月{D:z}日";
+export const f12 = "{G}{N:z,2}年{M:z,2}月{D:z,2}日";
+export const f13 = "{Y}-{M:2}-{D:2}";
+export const f14 = "{Y}-{M:2}-{D:2} {h:2}:{m:2}:{s:2}";
+export const fSqlDate = f13;
+export const fSqlDateTime = f14;
 

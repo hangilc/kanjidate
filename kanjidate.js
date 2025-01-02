@@ -159,6 +159,29 @@ export class KanjiDate {
         }
     }
 }
+export function fromGengou(gengou, nen) {
+    if (nen < 1) {
+        throw new Error("Invalid nen: " + nen);
+    }
+    const g = Gengou.fromString(gengou);
+    if (g != null) {
+        return g.nenStartYear - 1 + nen;
+    }
+    const s = Gregorian.fromString(gengou);
+    if (s != null) {
+        return nen;
+    }
+    throw new Error("Invalid gengou: " + gengou);
+}
+export function toGengou(year, month, day) {
+    const jpy = new JapaneseYear(year, month, day);
+    if (jpy.era instanceof Gregorian) {
+        return { gengou: "西暦", nen: year };
+    }
+    else {
+        return { gengou: jpy.era.getLabel(), nen: jpy.nen };
+    }
+}
 // namespace Impl {
 //   export class Kdate {
 //     constructor(
