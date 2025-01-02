@@ -1,6 +1,6 @@
 {
   "name": "kanjidate",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "description": "a small library that formats dates in Japanese",
   "main": "./kanjidate.js",
   "type": "module",

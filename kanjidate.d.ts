@@ -1,5 +1,6 @@
 export * from "./age";
 export * from "./manip";
+export * from "./formatter";
 declare class OrderedDate {
     year: number;
     month: number;

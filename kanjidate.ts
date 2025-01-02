@@ -1,5 +1,6 @@
 export * from "./age";
 export * from "./manip";
+export * from "./formatter";
 
 class OrderedDate {
   constructor(
